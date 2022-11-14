@@ -1,0 +1,168 @@
+openapi: 3.0.0
+info:
+  description: "Summary: Todo"
+  version: 1.0.0
+  title: Lighthouse Ocean Protocol
+  termsOfService: https://github.com/lighthouse-web3/ocean-integration/issues/1
+  contact:
+    email: nandit@lighthouse.storage
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    
+paths:
+  /getQuote:
+    post:
+      tags:
+        - getQuote
+      summary: "get Quota for a set of files"
+      description: ""
+      operationId: addPet
+      requestBody:
+        $ref: "#/components/requestBodies/quota"
+      responses:
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+               
+        "406":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+
+        "200":
+          description: success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseQuota"
+
+  /upload:
+    post:
+      tags:
+        - Upload
+      summary: "upload cid"
+      description: ""
+      requestBody:
+        $ref: "#/components/requestBodies/uploadPayload"
+      responses:
+        "400":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BadRequest"
+               
+        "406":
+          description: Invalid input
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "200":
+          description: success
+
+externalDocs:
+  description: Find out more about the integration
+  url: https://github.com/lighthouse-web3/ocean-integration/
+servers:
+  - url: http://localhost:3000
+components:
+  requestBodies:
+    quota:
+      content:
+        application/json:
+          schema:
+             $ref: "#/components/schemas/sendQuotaPayload"
+      description: request Quota Payload
+      required: true
+    uploadPayload:
+      content:
+        application/json:
+          schema:
+             $ref: "#/components/schemas/Upload"
+      description: uploadFile Payload
+      required: true
+  schemas:
+    responseQuota:
+      type: object
+      properties:
+        tokenAmount:
+          type: integer
+          format: int64
+        approveAddress:
+          type: string
+        chainId:
+          type: integer
+          format: int64
+        tokenAddress: 
+          type: string
+        quoteId:
+          type: string
+    sendQuotaPayload:
+      type: object
+      properties:
+        type:
+          type: string
+          example: 'fileCoin'
+        files:
+          type: array
+          items:
+             type: object
+             properties:
+                length:
+                 type: integer
+        duration:
+          type: integer
+        userAddress:
+          type: string
+          example: '0x21C561e551638401b937b03fE5a0a0652B99B7DD'
+        payment: 
+          type: object
+          properties:
+            chainId:
+              type: integer
+              example: 80001
+            tokenAddress:
+              type: string
+              example: "0x742DfA5Aa70a8212857966D491D67B09Ce7D6ec7"
+        quoteId:
+          type: string
+          
+    ValidationError:
+      type: object
+      properties:
+        error: 
+          type: object
+          properties: 
+            message:
+              type: string
+              
+    BadRequest:
+        type: object
+        properties:
+          message: 
+            type: string
+          data: 
+            type: object
+
+    Upload:
+      type: object
+      properties:
+        quoteId:
+          type: integer
+          format: int64
+        nonce:
+          type: integer
+        signature:
+          type: string
+        files:
+          type: array
+          items:
+             type: string
+             example: ipfs://xxxx

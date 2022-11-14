@@ -1,0 +1,2 @@
+- name: Github Issue Copier
+  uses: soichisumi/issue-copy-action@v0.2.0
