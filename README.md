@@ -1,4 +1,4 @@
-# Filecoin Migration Service
+# Filecoin Integration using Lighthouse
 
 Set Up 
 
