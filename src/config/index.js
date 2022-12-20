@@ -12,7 +12,6 @@ const baseConfig = {
   isTest: env === "testing",
   port: process.env.PORT ?? 3000,
   depositMumbai: process.env.DepositMumbai,
-  erc20Mumbai: process.env.ERC20Mumbai,
   privateKey: process.env.PRIVATE_KEY,
   dbsUrl: process.env.DBS_URL,
   locationUrl: process.env.LOCATION_URL,
@@ -48,7 +47,6 @@ const envVarsSchema = Joi.object({
   paymentAddress: Joi.object().required(),
   port: Joi.number().required(),
   depositMumbai: Joi.string().required(),
-  erc20Mumbai: Joi.string().required(),
   user_sql: Joi.string().required(),
   password_sql: Joi.string(),
   dataname_sql: Joi.string().required(),
@@ -56,12 +54,6 @@ const envVarsSchema = Joi.object({
   host_sql: Joi.string().required(),
 }).unknown();
 
-const { value: envVars, error } = envVarsSchema.validate(
-  merge(baseConfig, envConfig)
-);
 
-if (error) {
-  throw new Error(`Config validation error: ${error.message}`);
-}
 
 export default merge(baseConfig, envConfig);
