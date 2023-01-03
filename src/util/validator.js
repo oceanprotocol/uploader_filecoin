@@ -1,8 +1,5 @@
 import AppError from "./error";
 import web3 from "web3";
-import ABI from "../abi/mini.js";
-import { replaceKeyWords } from "./helper";
-import { ethers } from "ethers";
 
 export const SchemaValidator = (schema, options) => (req, res, next) => {
   const { error, value } = schema.validate(req.body, options);

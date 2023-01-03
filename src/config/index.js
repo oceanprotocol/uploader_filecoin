@@ -1,7 +1,6 @@
-import { merge } from "lodash";
 import dotenv from "dotenv";
 import Joi from "joi";
-import paymentAddress from "./paymentAddress";
+import contractInfo from "./contractInfo";
 
 dotenv.config();
 const env = process.env.NODE_ENV || "development";
@@ -11,12 +10,10 @@ const baseConfig = {
   isDev: env === "development",
   isTest: env === "testing",
   port: process.env.PORT ?? 3000,
-  depositMumbai: process.env.DepositMumbai,
-  erc20Mumbai: process.env.ERC20Mumbai,
   privateKey: process.env.PRIVATE_KEY,
   dbsUrl: process.env.DBS_URL,
   locationUrl: process.env.LOCATION_URL,
-  paymentAddress,
+  contractInfo,
   bearer_token: process.env.TOKEN,
   database_sql: process.env.DATABASE_SQL,
   user_sql: process.env.USER_SQL,
@@ -25,43 +22,32 @@ const baseConfig = {
   host_sql: process.env.HOST_SQL,
 };
 
-let envConfig = {};
-
-switch (env) {
-  case "dev":
-  case "development":
-    envConfig = require("./dev").config;
-    break;
-  case "test":
-  case "testing":
-    envConfig = require("./testing").config;
-    break;
-  case "prod":
-  case "production":
-    envConfig = require("./prod").config;
-    break;
-  default:
-    envConfig = require("./dev").config;
-}
-
 const envVarsSchema = Joi.object({
-  paymentAddress: Joi.object().required(),
-  port: Joi.number().required(),
-  depositMumbai: Joi.string().required(),
-  erc20Mumbai: Joi.string().required(),
-  user_sql: Joi.string().required(),
+  contractInfo: Joi.object().required(),
+  port: Joi.number().required("PORT is missing"),
+  user_sql: Joi.string()
+    .required()
+    .messages({ "any.required": "USER_SQL is missing" }),
   password_sql: Joi.string(),
-  dataname_sql: Joi.string().required(),
-  database_sql: Joi.string().required(),
-  host_sql: Joi.string().required(),
+  dataname_sql: Joi.string()
+    .required()
+    .messages({ "any.required": "DATANAME_SQL is missing" }),
+  database_sql: Joi.string()
+    .required()
+    .messages({ "any.required": "DATABASE_SQL is missing" }),
+  host_sql: Joi.string()
+    .required()
+    .messages({ "any.required": "HOST_SQL is missing" }),
 }).unknown();
 
-const { value: envVars, error } = envVarsSchema.validate(
-  merge(baseConfig, envConfig)
-);
+const { error, value } = envVarsSchema.validate(baseConfig, {
+  abortEarly: false, // include all errors
+  allowUnknown: true, // ignore unknown props
+  stripUnknown: true, // remove unknown props
+});
 
 if (error) {
-  throw new Error(`Config validation error: ${error.message}`);
+  throw new Error(`env is missing some objects:[${error?.message}]`);
 }
 
-export default merge(baseConfig, envConfig);
+export default value;

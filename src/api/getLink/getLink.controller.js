@@ -2,9 +2,9 @@ import {
   validateNonce,
   getQuotaData,
   validateSignature,
-  updateRow
+  updateRow,
 } from "../upload/upload.service";
-import { checkCID } from "../getStatus/getStatus.service";
+import { checkCID, dealDetails } from "../getStatus/getStatus.service";
 
 const getLink = async (req, res) => {
   const { quoteId, nonce, signature } = req.query;
@@ -22,11 +22,18 @@ const getLink = async (req, res) => {
     }
 
     const response = await checkCID(data.requestID);
-    const _temp = response?.data?.map((e) => ({
-      CID: e.cid,
-      type: "fileCoin",
-    }));
-    await updateRow(nonce,quoteId,{})
+    const _temp = await Promise.all(
+      response?.data?.map(async (fileDetails) => {
+        const { cid } = fileDetails;
+        const data = await dealDetails(cid);
+        return {
+          CID: cid,
+          type: "fileCoin",
+          dealIDs: (data ?? []).map((detail) => detail?.dealId),
+        };
+      })
+    );
+    await updateRow(nonce, quoteId, {});
     return res.status(200).json(_temp);
   } catch (e) {
     return res.status(400).json({ message: e.message, data: {} });

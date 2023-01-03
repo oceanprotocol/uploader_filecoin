@@ -17,7 +17,7 @@ const task = cron.schedule(
         description: "File storage on FileCoin",
         url: config.locationUrl,
         payment: Object.keys(config.paymentAddress).map((key) => {
-          return { chainId: key, acceptedTokens: config.paymentAddress[key] };
+          return { chainId: key, acceptedTokens: config.paymentAddress[key].currency };
         }),
       },
     });

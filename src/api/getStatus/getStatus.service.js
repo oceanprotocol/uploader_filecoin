@@ -1,8 +1,4 @@
-import { utils, providers, Contract, Wallet } from "ethers";
 import axios from "axios";
-import config from "../../config";
-import db from "../../util/db";
-import { ERC20, DepositABI } from "../../abi/mini";
 
 export const checkCID = async (requestId) => {
   return await axios({
@@ -13,4 +9,17 @@ export const checkCID = async (requestId) => {
       "Content-Type": "application/json;charset=UTF-8",
     },
   });
+};
+
+export const dealDetails = async (cid) => {
+  return (
+    await axios({
+      url: `https://api.lighthouse.storage/api/lighthouse/deal_status?cid=${cid}`,
+      method: "GET",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json;charset=UTF-8",
+      },
+    })
+  ).data;
 };

@@ -27,11 +27,13 @@ const createUpload = async (req, res) => {
     if (!(await validateNonce(data.userAddress, nonce))) {
       return res.status(400).json({ message: "Invalid nonce", data: {} });
     }
+    console.log(data);
     if (
       !(await checkAllowance(
         data.tokenAddress,
         data.userAddress,
-        data.tokenAmount
+        data.tokenAmount,
+        data.chainId
       ))
     ) {
       return res
@@ -40,7 +42,12 @@ const createUpload = async (req, res) => {
     }
 
     if (
-      await buyStorage(data.userAddress, data.tokenAddress, data.tokenAmount)
+      await buyStorage(
+        data.userAddress,
+        data.tokenAddress,
+        data.tokenAmount,
+        data.chainId
+      )
     ) {
       const response = await migrateCIDS(data.userAddress, files);
       await updateRow(nonce, quoteId, response.data);
@@ -48,6 +55,9 @@ const createUpload = async (req, res) => {
         .status(200)
         .json({ message: "Success", data: { ...req.body, ...response.data } });
     }
+    return res
+      .status(500)
+      .json({ message: "an Error occurred when purchasing Storage", data: {} });
   } catch (e) {
     return res.status(400).json({ message: e.message, data: {} });
   }

@@ -1,13 +1,9 @@
 import { utils, providers, Contract, Wallet } from "ethers";
 import axios from "axios";
 import config from "../../config";
-import db from "../../util/db";
+import { ethers } from "ethers";
 import { ERC20, DepositABI } from "../../abi/mini";
 import { getData, getLastKnowNonce, updateData } from "../../util/db";
-
-const mumbaiProvider = new providers.JsonRpcProvider(
-  "https://polygon-mumbai.g.alchemy.com/v2/NvgEIkT9nJ900ieCAKHe4HKBT-ChYqgB"
-);
 
 export const getQuotaData = async (quoteId) => {
   let data;
@@ -22,7 +18,6 @@ export const getQuotaData = async (quoteId) => {
 export const validateSignature = async (quoteId, nonce, address, signature) => {
   try {
     const sig = await utils.splitSignature(signature);
-
 
     const publicKeyToVerify = await utils
       .verifyMessage(`${quoteId}${nonce}`, sig)
@@ -39,18 +34,35 @@ export const validateNonce = async (address, nonce) => {
   return (await getLastKnowNonce(address)) < +nonce;
 };
 
-export const checkAllowance = async (tokenAddress, address, amount) => {
-  const mumbaiERCContract = new Contract(tokenAddress, ERC20, mumbaiProvider);
-  const data = await mumbaiERCContract.allowance(address, config.depositMumbai);
-  const balanceOf = await mumbaiERCContract.balanceOf(address);
+export const checkAllowance = async (
+  tokenAddress,
+  address,
+  amount,
+  chainId
+) => {
+  const provider = new ethers.providers.JsonRpcProvider(
+    config.contractInfo[chainId].rpc
+  );
+  console.log(config.contractInfo[chainId].rpc);
+
+  const contract = new Contract(tokenAddress, ERC20, provider);
+  const data = await contract.allowance(
+    address,
+    config.contractInfo[chainId].contract
+  );
+  const balanceOf = await contract.balanceOf(address);
   return data >= amount && balanceOf >= amount;
 };
 
-export const buyStorage = async (user, tokenAddress, amount) => {
+export const buyStorage = async (user, tokenAddress, amount, chainId) => {
+  const provider = new ethers.providers.JsonRpcProvider(
+    config.contractInfo[chainId].rpc
+  );
+
   try {
-    const signer = new Wallet(config.privateKey, mumbaiProvider);
+    const signer = new Wallet(config.privateKey, provider);
     const depositContract = new Contract(
-      config.depositMumbai,
+      config.contractInfo[chainId].contract,
       DepositABI,
       signer,
       {
@@ -60,7 +72,7 @@ export const buyStorage = async (user, tokenAddress, amount) => {
     await depositContract.ManagerAddDeposit(user, tokenAddress, amount);
     return true;
   } catch (e) {
-    return false;
+    throw new Error(e.message);
   }
 };
 
