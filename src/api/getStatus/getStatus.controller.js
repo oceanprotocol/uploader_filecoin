@@ -8,31 +8,38 @@ const getStatus = async (req, res) => {
     data = await getQuotaData(quoteId);
   } catch (e) {
     console.log(e);
+    // Invalid Quote Id or Id not found
     return res.status(200).json({ status: 0 });
   }
-
 
   if (!data.isUsed) {
     if (
       !(await checkAllowance(
         data.tokenAddress,
         data.userAddress,
-        data.tokenAmount
+        data.tokenAmount,
+        data.chainId
       ))
     ) {
-      return res.status(200).json({ status: 2 });
+      // Inadequate Balance or token Allowance given
+      return res.status(200).json({ status: 199 });
     }
-    return res.status(200).json({ status: 1 });
+    // Waiting for files to be uploaded by the user
+    return res.status(200).json({ status: 99 });
   }
+  //
   try {
     const response = await checkCID(data.requestID);
     if (response?.data?.filter((e) => e?.cidStatus !== "pinned")?.length == 0) {
-      return res.status(200).json({ status: 5 });
+      // success fully Uploaded
+      return res.status(200).json({ status: 400 });
     } else {
-      return res.status(200).json({ status: 4 });
+      // some Cid are not Pinned
+      return res.status(200).json({ status: 300 });
     }
   } catch (e) {
-    return res.status(400).json({ error: e.message });
+    // something went wrong
+    return res.status(400).json({ error: e.message, status: 401 });
   }
 };
 

@@ -20,7 +20,7 @@ const getQuoteInputSchema = Joi.object({
   payment: Joi.object({
     chainId: Joi.number()
       .required()
-      .valid(...Object.keys(config.paymentAddress).map((e) => +e)),
+      .valid(...Object.keys(config.contractInfo).map((e) => +e)),
     tokenAddress: Joi.string()
       .required()
       .lowercase()
@@ -32,7 +32,8 @@ const getQuoteInputSchema = Joi.object({
     .items(Joi.object({ length: Joi.number().min(0) })),
 }).custom((values, helper) => {
   let [paymentAddress] = (
-    Object.values(config.paymentAddress[values?.payment?.chainId]) ?? []
+    Object.values(config.contractInfo[values?.payment?.chainId].currency) ??
+    []
   ).filter(
     (a) => a.toLowerCase() === values?.payment?.tokenAddress.toLowerCase()
   );

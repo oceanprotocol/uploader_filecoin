@@ -11,14 +11,18 @@ const createQuota = async (req, res) => {
   }, 0);
 
   try {
-    cost = await getStorageCost(payment.tokenAddress, getTotalFileSize);
+    cost = await getStorageCost(
+      payment.tokenAddress,
+      payment.chainId,
+      getTotalFileSize
+    );
   } catch (e) {
     return res.status(400).json({ message: "Error", data: e?.reason });
   }
 
   var _data = {
     tokenAmount: parseInt(cost),
-    approveAddress: config.depositMumbai,
+    approveAddress: payment.chainId,
     chainId: payment.chainId,
     tokenAddress: payment.tokenAddress,
   };

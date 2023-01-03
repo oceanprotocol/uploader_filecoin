@@ -2,7 +2,8 @@
   "name": "dbs-filecoin",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "Apache 2.0",
+  "author": "lighthouse-web3",
+  "license": "Apache-2.0",
   "scripts": {
     "build": "babel src --out-dir dist",
     "test": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent",
@@ -12,7 +13,7 @@
     "start": "node dist/index.js"
   },
   "engines": {
-    "node": "^16.0.0"
+    "node": "^16.0.0 || ^18.0"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -49,17 +50,6 @@
     "babel-eslint": "^10.1.0",
     "babel-jest": "^27.3.1",
     "cross-env": "^7.0.3",
-    "eslint": "^8.2.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-config-standard": "^16.0.3",
-    "eslint-friendly-formatter": "^4.0.1",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-import": "^2.25.3",
-    "eslint-plugin-jest": "^25.2.4",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-promise": "^5.1.1",
-    "eslint-plugin-standard": "^5.0.0",
     "jest": "^27.3.1",
     "mock-req-res": "^1.2.0",
     "nodemon": "^2.0.15",
