@@ -1,8 +1,6 @@
-import dotenv from "dotenv";
 import Joi from "joi";
 import contractInfo from "./contractInfo";
 
-dotenv.config();
 const env = process.env.NODE_ENV || "development";
 
 const baseConfig = {
@@ -14,16 +12,30 @@ const baseConfig = {
   dbsUrl: process.env.DBS_URL,
   locationUrl: process.env.LOCATION_URL,
   contractInfo,
-  bearer_token: process.env.TOKEN,
+  bearer_token: process.env.LIGHTHOUSE_API_TOKEN,
   database_sql: process.env.DATABASE_SQL,
   user_sql: process.env.USER_SQL,
   password_sql: process.env.PASSWORD_SQL,
   dataname_sql: process.env.DATANAME_SQL,
   host_sql: process.env.HOST_SQL,
 };
+const currencySchema = Joi.object().pattern(
+  Joi.string(),
+  Joi.string().required()
+);
+
+const contractInfoSchema = Joi.object().keys({
+  currency: currencySchema,
+  rpc: Joi.string()
+    .uri({ scheme: ["https"] })
+    .required(),
+  contract: Joi.string().required(),
+});
 
 const envVarsSchema = Joi.object({
-  contractInfo: Joi.object().required(),
+  contractInfo: Joi.object()
+    .pattern(Joi.number(), contractInfoSchema)
+    .required(),
   port: Joi.number().required("PORT is missing"),
   user_sql: Joi.string()
     .required()
