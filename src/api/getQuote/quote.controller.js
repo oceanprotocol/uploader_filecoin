@@ -1,3 +1,4 @@
+import config from "../../config";
 import { getStorageCost, saveQuote } from "./quote.service";
 
 const createQuota = async (req, res) => {
@@ -20,7 +21,7 @@ const createQuota = async (req, res) => {
 
   var _data = {
     tokenAmount: parseInt(cost),
-    approveAddress: payment.tokenAddress,
+    approveAddress: config.contractInfo[payment.chainId].contract,
     chainId: payment.chainId,
     tokenAddress: payment.tokenAddress,
   };
