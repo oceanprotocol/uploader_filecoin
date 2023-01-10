@@ -1,5 +1,5 @@
 import { checkAllowance, getQuotaData } from "../upload/upload.service";
-import { checkCID } from "./getStatus.service";
+import { checkCID, dealDetails } from "./getStatus.service";
 
 const getStatus = async (req, res) => {
   const { quoteId } = req.query;
@@ -31,8 +31,18 @@ const getStatus = async (req, res) => {
   try {
     const response = await checkCID(data.requestID);
     if (response?.data?.filter((e) => e?.cidStatus !== "pinned")?.length == 0) {
-      // success fully Uploaded
-      return res.status(200).json({ status: 400 });
+      const listCID = response?.data?.map((elem) => elem.cid);
+
+      // filecoin deals are made in Batch, A request belongs to the same deal
+
+      //randomly select one cid
+      const randomCID = listCID[Math.floor(Math.random() * listCID.length)];
+      const deals = await dealDetails(randomCID);
+      if (deals.length > 0) {
+        // success fully Uploaded
+        return res.status(200).json({ status: 400 });
+      }
+      return res.status(200).json({ status: 399 });
     } else {
       // some Cid are not Pinned
       return res.status(200).json({ status: 300 });
