@@ -1,5 +1,3 @@
-import { utils } from "ethers";
-import config from "../../config";
 import { getStorageCost, saveQuote } from "./quote.service";
 
 const createQuota = async (req, res) => {
@@ -22,7 +20,7 @@ const createQuota = async (req, res) => {
 
   var _data = {
     tokenAmount: parseInt(cost),
-    approveAddress: payment.chainId,
+    approveAddress: payment.tokenAddress,
     chainId: payment.chainId,
     tokenAddress: payment.tokenAddress,
   };
