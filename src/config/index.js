@@ -7,7 +7,7 @@ const baseConfig = {
   env,
   isDev: env === "development",
   isTest: env === "testing",
-  port: process.env.PORT ?? 3000,
+  port: process.env.FILECOIN_DBS_PORT ?? 3000,
   privateKey: process.env.PRIVATE_KEY,
   dbsUrl: process.env.DBS_URL,
   locationUrl: process.env.LOCATION_URL,
