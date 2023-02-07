@@ -2,7 +2,7 @@
   "name": "dbs-filecoin",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "xlassix",
+  "author": "lighthouse-web3",
   "license": "Apache-2.0",
   "scripts": {
     "build": "babel src --out-dir dist",
