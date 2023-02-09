@@ -3,8 +3,8 @@ import {
   getQuotaData,
   validateSignature,
   updateRow,
-} from "../upload/upload.service";
-import { checkCID, dealDetails } from "../getStatus/getStatus.service";
+} from '../upload/upload.service';
+import { checkCID, dealDetails } from '../getStatus/getStatus.service';
 
 const getLink = async (req, res) => {
   const { quoteId, nonce, signature } = req.query;
@@ -14,22 +14,22 @@ const getLink = async (req, res) => {
     if (
       !(await validateSignature(quoteId, nonce, data.userAddress, signature))
     ) {
-      return res.status(400).json({ message: "Invalid signature", data: {} });
+      return res.status(400).json({ message: 'Invalid signature', data: {} });
     }
 
     if (!(await validateNonce(data.userAddress, nonce))) {
-      return res.status(400).json({ message: "Invalid nonce", data: {} });
+      return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
     const response = await checkCID(data.requestID);
     const _temp = await Promise.all(
       response?.data?.map(async (fileDetails) => {
         const { cid } = fileDetails;
-        const data = await dealDetails(cid);
+        const _data = await dealDetails(cid);
         return {
           CID: cid,
-          type: "fileCoin",
-          dealIDs: (data ?? []).map((detail) => detail?.dealId),
+          type: 'fileCoin',
+          dealIDs: (_data ?? []).map((detail) => detail?.dealId),
         };
       })
     );
@@ -40,9 +40,8 @@ const getLink = async (req, res) => {
   }
 };
 
-const rejectRequest = (req, res) => {
-  return res.status(406).json({ message: "Method Not allowed", data: {} });
-};
+const rejectRequest = (req, res) =>
+  res.status(406).json({ message: 'Method Not allowed', data: {} });
 
 export default {
   rejectRequest,

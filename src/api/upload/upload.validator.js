@@ -1,6 +1,5 @@
-import Joi from "joi";
-import config from "../../config";
-import { SchemaValidator } from "../../util/validator";
+import Joi from 'joi';
+import { SchemaValidator } from '../../util/validator';
 
 const createOptions = {
   abortEarly: false, // include all errors

@@ -1,6 +1,5 @@
-import db from "../models/data";
-import { col, fn } from "sequelize";
-
+import { col, fn } from 'sequelize';
+import db from '../models/data';
 
 async function updateOrCreate(model, quoteId, newItem) {
   // First try to find the record
@@ -15,25 +14,23 @@ async function updateOrCreate(model, quoteId, newItem) {
   return { item, created: false };
 }
 
-export const putData = async (updatedDetails) => {
-  return await updateOrCreate(db.model, updatedDetails.quoteId, updatedDetails);
-};
+export const putData = async (updatedDetails) =>
+  await updateOrCreate(db.model, updatedDetails.quoteId, updatedDetails);
 
 export const getLastKnowNonce = async (address) => {
   const [data] = await db.model.findAll({
     where: { userAddress: address },
-    attributes: [[fn("max", col("nonce")), "maxNonce"]],
+    attributes: [[fn('max', col('nonce')), 'maxNonce']],
   });
   return +data?.dataValues?.maxNonce ?? 0;
 };
 
-export const updateData = async (updatedDetails) => {
-  return (
+export const updateData = async (updatedDetails) =>
+  (
     await db.model.update(updatedDetails, {
       where: { quoteId: updatedDetails.quoteId },
     })
   )?.dataValues;
-};
 export const getData = async (quoteId) => {
   const Item = await db.model.findOne({ where: { quoteId } });
   if (!Item) {
@@ -41,4 +38,3 @@ export const getData = async (quoteId) => {
   }
   return Item?.dataValues;
 };
-
