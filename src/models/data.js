@@ -33,8 +33,8 @@ var _db = {};
 
 // connect to db
 const sequelize = new Sequelize(config.database_sql, config.user_sql, config.password_sql, {
-  host: config.host_sql,
-  dialect: "mysql",
+  dialect: "sqlite",
+  storage: 'db/database.sqlite'
 });
 export async function initializeDB() {
   // init models and add them to the exported db object
