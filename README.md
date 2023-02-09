@@ -6,6 +6,7 @@ A microservice for uploading files to Lighthouse. To be used with
 ## Endpoints
 
 ### getQuote
+
 Description: Gets a quote in order to store some files
 
 Path: POST /getQuote
@@ -14,17 +15,14 @@ Arguments:
 
 ```json
 {
-    "type": "filecoin",
-    "files": [
-                {"length":2343545},
-                {"length":2343545},
-            ],
-    "duration": 4353545453,
-    "payment": {
-        "chainId": 1,
-        "tokenAddress": "0xUSDT_on_ETHERUEM"
-    },
-    "userAddress": "0x456"
+  "type": "filecoin",
+  "files": [{ "length": 2343545 }, { "length": 2343545 }],
+  "duration": 4353545453,
+  "payment": {
+    "chainId": 1,
+    "tokenAddress": "0xUSDT_on_ETHERUEM"
+  },
+  "userAddress": "0x456"
 }
 ```
 
@@ -41,11 +39,11 @@ Returns:
 
 ```json
 {
-    "tokenAmount": 500,
-    "approveAddress": "0x123",
-    "chainId": 1,
-    "tokenAddress": "0xUSDT_on_MAINNET",
-    "quoteId": "xxxx"
+  "tokenAmount": 500,
+  "approveAddress": "0x123",
+  "chainId": 1,
+  "tokenAddress": "0xUSDT_on_MAINNET",
+  "quoteId": "xxxx"
 }
 ```
 
@@ -57,10 +55,8 @@ Where:
 - tokenAddress: token that will be used to make the payment
 - quoteId: backend server will generate a quoteId
 
-
-
-
 ### upload
+
 Description: Upload some files
 
 Path: POST /upload
@@ -69,13 +65,10 @@ Input:
 
 ```json
 {
-    "quoteId": "23",
-    "nonce": 12345.12345,
-    "signature": "0x2222",
-    "files": [
-        "ipfs://xxxx",
-        "ipfs://yyyy"
-    ]
+  "quoteId": "23",
+  "nonce": 12345.12345,
+  "signature": "0x2222",
+  "files": ["ipfs://xxxx", "ipfs://yyyy"]
 }
 ```
 
@@ -85,6 +78,7 @@ Returns: `200 OK` if all the pre-checks pass. Upload occurs asynchronously.
 Call `getStatus` to monitor status.
 
 ### getStatus
+
 Description: Gets status for a job
 
 Path: POST /getStatus?quoteId=xxx
@@ -93,31 +87,28 @@ Returns:
 
 ```json
 {
-    "status": 0
+  "status": 0
 }
 ```
 
 Where:
 
-Status | Status Description
--- | --
-0 | No such quote
-99 |  Waiting for files to be uploaded by the user
-199 |  Inadequate Balance or token Allowance given
-300 | Uploading files to storage
-399 |  CID migrated to lighthouse node, creating filecoin deal
-400 |  Deal created on filecoin network
-401 | Upload failure 
+| Status | Status Description                                      |
+| ------ | ------------------------------------------------------- |
+| 0      | No such quote                                           |
+| 99     | Waiting for files to be uploaded by the user            |
+| 199    | Inadequate Balance or token Allowance given             |
+| 300    | Uploading files to storage                              |
+| 399    | CID migrated to lighthouse node, creating filecoin deal |
+| 400    | Deal created on filecoin network                        |
+| 401    | Upload failure                                          |
 
 ### getLink
 
-
-
-Set Up 
+Set Up
 
 - Populate `.env` or environment variable using a sample from `.env.example`
 
- 
 ```bash
 export DBS_URL="https://google.com"
 export LOCATION_URL="127.0.0.1" #publicly accessable url to this deployed instance or server
@@ -141,34 +132,26 @@ export DB_STORAGE="db/database.sqlite"
 npm start
 ```
 
-
 Run in Plain Node Environment
 
-- Install dependencies 
+- Install dependencies
 
-    `
-    yarn install 
-    `
+  `yarn install`
+
 - Make production build with
 
-    `
-    yarn build
-    `
-- Run build 
+  ` yarn build`
 
-    `
-    yarn start
-    `
+- Run build
+
+  ` yarn start`
 
 Run as Docker Image
 
 - Build Docker image
 
-    `
-    docker build -t filecoin_dbs .
-    `
+  ` docker build -t filecoin_dbs .`
+
 - Run Docker Image
 
-    `
-    docker run -d filecoin_dbs 
-    `
+  `docker run -d filecoin_dbs`
