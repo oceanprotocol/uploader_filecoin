@@ -2,7 +2,7 @@
   "name": "dbs-filecoin",
   "version": "1.0.0",
   "main": "index.js",
-  "author": "lighthouse-web3",
+  "author": "xlassix",
   "license": "Apache-2.0",
   "scripts": {
     "build": "babel src --out-dir dist",
@@ -25,7 +25,6 @@
     "node-cron": "^3.0.2",
     "sequelize": "^6.25.5",
     "sqlite3": "^5.1.4",
-    "underscore": "^1.13.1",
     "validator": "^13.7.0",
     "web3": "^1.7.4"
   },
@@ -42,19 +41,21 @@
     "restoreMocks": true
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.0",
-    "@babel/core": "^7.16.0",
-    "@babel/plugin-proposal-class-properties": "^7.16.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.16.0",
-    "@babel/preset-env": "^7.16.0",
-    "babel-core": "^6.26.3",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.3.1",
+    "@babel/cli": "^7.20.7",
+    "@babel/core": "^7.20.12",
+    "@babel/node": "^7.20.7",
+    "@babel/preset-env": "^7.20.2",
+    "@babel/runtime": "^7.20.13",
     "cross-env": "^7.0.3",
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
     "jest": "^27.3.1",
     "mock-req-res": "^1.2.0",
     "nodemon": "^2.0.15",
-    "prettier": "^2.4.1",
+    "prettier": "^2.8.3",
     "rimraf": "^3.0.2",
     "supertest": "^6.1.6"
   }
