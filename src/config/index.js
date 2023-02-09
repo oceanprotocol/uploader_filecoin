@@ -37,6 +37,7 @@ const envVarsSchema = Joi.object({
     .pattern(Joi.number(), contractInfoSchema)
     .required(),
   port: Joi.number().required("PORT is missing"),
+  /*
   user_sql: Joi.string()
     .required()
     .messages({ "any.required": "USER_SQL is missing" }),
@@ -50,6 +51,7 @@ const envVarsSchema = Joi.object({
   host_sql: Joi.string()
     .required()
     .messages({ "any.required": "HOST_SQL is missing" }),
+    */
 }).unknown();
 
 const { error, value } = envVarsSchema.validate(baseConfig, {
