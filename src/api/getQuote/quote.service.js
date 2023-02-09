@@ -1,8 +1,8 @@
-import config from "../../config";
-import { ethers } from "ethers";
-import { DepositABI } from "../../abi/mini";
-import db, { putData } from "../../util/db";
-import { v4 as uuid } from "uuid";
+import { ethers } from 'ethers';
+import { v4 as uuid } from 'uuid';
+import config from '../../config';
+import { DepositABI } from '../../abi/mini';
+import { putData } from '../../util/db';
 
 export const getStorageCost = async (tokenAddress, chainId, size) => {
   const provider = new ethers.providers.JsonRpcProvider(
@@ -14,11 +14,11 @@ export const getStorageCost = async (tokenAddress, chainId, size) => {
     DepositABI,
     provider
   );
-  return await contract.getStorageCostForStableCoins(tokenAddress, size);
+  return contract.getStorageCostForStableCoins(tokenAddress, size);
 };
 
 export const saveQuote = async (data) => {
-  const num = uuid().replaceAll("-", "");
+  const num = uuid().replaceAll('-', '');
   await putData({ quoteId: num, ...data });
   return num;
 };

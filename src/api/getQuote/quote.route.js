@@ -1,11 +1,11 @@
-import { Router } from "express";
-import controllers from "./quote.controller";
-import { getQuoteInputSchemaValidator } from "./quote.validator";
+import { Router } from 'express';
+import controllers from './quote.controller';
+import { getQuoteInputSchemaValidator } from './quote.validator';
 
 const quotaRouter = Router();
 
 quotaRouter
-  .route("/")
+  .route('/')
   .get(controllers.rejectRequest)
   .post(getQuoteInputSchemaValidator, controllers.createOne)
   .put(controllers.rejectRequest);

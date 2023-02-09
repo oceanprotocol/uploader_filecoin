@@ -1,10 +1,10 @@
-import { Router } from "express";
-import controllers from "./getLink.controller";
+import { Router } from 'express';
+import controllers from './getLink.controller';
 
 const uploadRouter = Router();
 
 uploadRouter
-  .route("/")
+  .route('/')
   .get(controllers.rejectRequest)
   .post(controllers.getOne)
   .put(controllers.rejectRequest);

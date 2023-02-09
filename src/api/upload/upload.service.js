@@ -1,16 +1,13 @@
-import { utils, providers, Contract, Wallet } from "ethers";
-import axios from "axios";
-import config from "../../config";
-import { ethers } from "ethers";
-import { ERC20, DepositABI } from "../../abi/mini";
-import { getData, getLastKnowNonce, updateData } from "../../util/db";
+import { utils, Contract, Wallet, ethers } from 'ethers';
+import axios from 'axios';
+import config from '../../config';
+import { ERC20, DepositABI } from '../../abi/mini';
+import { getData, getLastKnowNonce, updateData } from '../../util/db';
 
 export const getQuotaData = async (quoteId) => {
-  let data;
-
-  data = await getData(quoteId);
+  const data = await getData(quoteId);
   if (!data) {
-    throw new Error("invalid quoteID");
+    throw new Error('invalid quoteID');
   }
   return data;
 };
@@ -28,11 +25,11 @@ export const validateSignature = async (quoteId, nonce, address, signature) => {
   } catch (e) {
     return false;
   }
+  return false;
 };
 
-export const validateNonce = async (address, nonce) => {
-  return (await getLastKnowNonce(address)) < +nonce;
-};
+export const validateNonce = async (address, nonce) =>
+  (await getLastKnowNonce(address)) < +nonce;
 
 export const checkAllowance = async (
   tokenAddress,
@@ -43,7 +40,6 @@ export const checkAllowance = async (
   const provider = new ethers.providers.JsonRpcProvider(
     config.contractInfo[chainId].rpc
   );
-  console.log(config.contractInfo[chainId].rpc);
 
   const contract = new Contract(tokenAddress, ERC20, provider);
   const data = await contract.allowance(
@@ -76,23 +72,26 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
   }
 };
 
-export const migrateCIDS = async (user, files) => {
-  return await axios({
-    url: "https://api.lighthouse.storage/api/lighthouse/migration_request_ent",
-    method: "POST",
+export const migrateCIDS = async (user, files) =>
+  axios({
+    url: 'https://api.lighthouse.storage/api/lighthouse/migration_request_ent',
+    method: 'POST',
     headers: {
-      Accept: "application/json",
-      "Content-Type": "application/json;charset=UTF-8",
+      Accept: 'application/json',
+      'Content-Type': 'application/json;charset=UTF-8',
       Authorization: `Bearer ${config.bearer_token}`,
     },
     data: {
-      data: JSON.stringify(files.map((elem) => elem.split("//")[1])),
+      data: JSON.stringify(files.map((elem) => elem.split('//')[1])),
       publicKey: user,
-      enterprise: "ocean_protocol",
+      enterprise: 'ocean_protocol',
     },
   });
-};
 
-export const updateRow = async (nonce, quoteId, data) => {
-  return await updateData({ quoteId, ...data, nonce, isUsed: true });
-};
+export const updateRow = async (nonce, quoteId, data) =>
+  updateData({
+    quoteId,
+    ...data,
+    nonce,
+    isUsed: true,
+  });
