@@ -1,13 +1,14 @@
-import Joi from "joi";
-import contractInfo from "./contractInfo";
+import Joi from 'joi';
+import contractInfo from './contractInfo';
 
-const env = process.env.NODE_ENV || "development";
+const env = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
   env,
-  isDev: env === "development",
-  isTest: env === "testing",
+  isDev: env === 'development',
+  isTest: env === 'testing',
   port: process.env.FILECOIN_DBS_PORT ?? 3000,
+  dbsPingInMinutes: process.env.DBS_PING_IN_MINUTES ?? '1',
   privateKey: process.env.PRIVATE_KEY,
   dbsUrl: process.env.DBS_URL,
   locationUrl: process.env.LOCATION_URL,
@@ -18,6 +19,8 @@ const baseConfig = {
   password_sql: process.env.PASSWORD_SQL,
   dataname_sql: process.env.DATANAME_SQL,
   host_sql: process.env.HOST_SQL,
+  db_type: process.env.DB_TYPE,
+  db_storage: process.env.DB_STORAGE,
 };
 const currencySchema = Joi.object().pattern(
   Joi.string(),
@@ -27,7 +30,7 @@ const currencySchema = Joi.object().pattern(
 const contractInfoSchema = Joi.object().keys({
   currency: currencySchema,
   rpc: Joi.string()
-    .uri({ scheme: ["https"] })
+    .uri({ scheme: ['https'] })
     .required(),
   contract: Joi.string().required(),
 });
@@ -36,20 +39,45 @@ const envVarsSchema = Joi.object({
   contractInfo: Joi.object()
     .pattern(Joi.number(), contractInfoSchema)
     .required(),
-  port: Joi.number().required("PORT is missing"),
-  user_sql: Joi.string()
-    .required()
-    .messages({ "any.required": "USER_SQL is missing" }),
+  port: Joi.number().required('PORT is missing'),
+  dbsPingInMinutes: Joi.number().required('dbsTimeout is missing'),
+  db_type: Joi.string().insensitive().valid('mysql', 'sqlite').required(),
+  user_sql: Joi.when('db_type', {
+    is: Joi.equal('mysql'),
+    then: Joi.string().required().messages({
+      'any.required': 'USER_SQL is required for DB_TYPE=`mysql`',
+    }),
+    otherwise: Joi.string(),
+  }),
   password_sql: Joi.string(),
-  dataname_sql: Joi.string()
-    .required()
-    .messages({ "any.required": "DATANAME_SQL is missing" }),
-  database_sql: Joi.string()
-    .required()
-    .messages({ "any.required": "DATABASE_SQL is missing" }),
-  host_sql: Joi.string()
-    .required()
-    .messages({ "any.required": "HOST_SQL is missing" }),
+  dataname_sql: Joi.when('db_type', {
+    is: Joi.equal('mysql'),
+    then: Joi.string().required().messages({
+      'any.required': 'DATANAME_SQL is required for DB_TYPE=`mysql`',
+    }),
+    otherwise: Joi.string(),
+  }),
+  database_sql: Joi.when('db_type', {
+    is: Joi.equal('mysql'),
+    then: Joi.string().required().messages({
+      'any.required': 'DATABASE_SQL is required for DB_TYPE=`mysql`',
+    }),
+    otherwise: Joi.string(),
+  }),
+  host_sql: Joi.when('db_type', {
+    is: Joi.equal('mysql'),
+    then: Joi.string().required().messages({
+      'any.required': 'HOST_SQL is required for DB_TYPE=`mysql`',
+    }),
+    otherwise: Joi.string(),
+  }),
+  db_storage: Joi.when('db_type', {
+    is: Joi.equal('c'),
+    then: Joi.string().required().messages({
+      'any.required': 'db_storage is required for DB_TYPE=`sqlite`',
+    }),
+    otherwise: Joi.string(),
+  }),
 }).unknown();
 
 const { error, value } = envVarsSchema.validate(baseConfig, {

@@ -1,8 +1,8 @@
-import Joi from "joi";
-import config from "../../config";
-import { SchemaValidator, addressValidator } from "../../util/validator";
+import Joi from 'joi';
+import config from '../../config';
+import { SchemaValidator, addressValidator } from '../../util/validator';
 
-const createOptions = {
+export const createOptions = {
   abortEarly: false, // include all errors
   allowUnknown: true, // ignore unknown props
   stripUnknown: true, // remove unknown props
@@ -11,7 +11,7 @@ const createOptions = {
 const getQuoteInputSchema = Joi.object({
   type: Joi.string()
     .insensitive()
-    .valid("filecoin", "lighthouseStorage")
+    .valid('filecoin', 'lighthouseStorage')
     .required(),
   duration: Joi.number().required().min(0),
   userAddress: Joi.string().custom((value, helper) =>
@@ -31,15 +31,13 @@ const getQuoteInputSchema = Joi.object({
     .required()
     .items(Joi.object({ length: Joi.number().min(0) })),
 }).custom((values, helper) => {
-  let [paymentAddress] = (
-    Object.values(config.contractInfo[values?.payment?.chainId].currency) ??
-    []
+  const [paymentAddress] = (
+    Object.values(config.contractInfo[values?.payment?.chainId].currency) ?? []
   ).filter(
     (a) => a.toLowerCase() === values?.payment?.tokenAddress.toLowerCase()
   );
   if (!paymentAddress) {
-    number;
-    return helpers.message(
+    return helper.message(
       `TokenAddress not support on chainId ${values?.payment?.chainId}`
     );
   }

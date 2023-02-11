@@ -1,22 +1,23 @@
 module.exports = {
   parserOptions: {
-    sourceType: "module",
+    sourceType: 'module',
   },
-  parser: "babel-eslint",
+  parser: '@babel/eslint-parser',
   env: {
     node: true,
   },
-  extends: [
-    "standard",
-    "prettier",
-    "prettier/standard",
-    "plugin:jest/recommended",
-  ],
-  plugins: ["prettier", "jest"],
+  extends: ['prettier', 'airbnb-base'],
+  plugins: ['prettier', 'jest'],
   rules: {
-    "promise/catch-or-return": "error",
-    "prettier/prettier": [
-      "error",
+    indent: 'off',
+    'promise/catch-or-return': 0,
+    'comma-dangle': 0,
+    'object-curly-newline': 0,
+    'implicit-arrow-linebreak': 0,
+    'no-underscore-dangle': 0,
+    'prettier/prettier': 'error',
+    prettier: [
+      'error',
       {
         singleQuote: true,
         semi: false,
