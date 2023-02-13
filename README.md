@@ -154,4 +154,4 @@ Run as Docker Image
 
 - Run Docker Image
 
-  `docker run -d filecoin_dbs`
+  `docker run -p 80:3000 -d filecoin_dbs`
