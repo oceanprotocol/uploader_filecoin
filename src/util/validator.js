@@ -1,4 +1,4 @@
-import web3 from 'web3';
+import { isAddress } from 'web3-utils';
 import AppError from './error';
 
 export const SchemaValidator = (schema, options) => (req, res, next) => {
@@ -12,7 +12,7 @@ export const SchemaValidator = (schema, options) => (req, res, next) => {
 };
 
 export const addressValidator = (value, helpers) => {
-  if (web3.utils.isAddress(value?.toLowerCase())) {
+  if (isAddress(value?.toLowerCase())) {
     return value.toLowerCase();
   }
   return helpers.message('Invalid address');

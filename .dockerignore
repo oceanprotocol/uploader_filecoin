@@ -4,6 +4,5 @@ db*
 !/src/util/db*
 coverage
 yarn-error.log
-.env
 src/util/migrate.js
-src/util/__tests__/auth.spec.js
+./**/*.spec.js

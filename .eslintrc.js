@@ -7,7 +7,7 @@ module.exports = {
     node: true,
   },
   extends: ['prettier', 'airbnb-base'],
-  plugins: ['prettier', 'jest'],
+  plugins: ['jest', 'prettier'],
   rules: {
     indent: 'off',
     'promise/catch-or-return': 0,

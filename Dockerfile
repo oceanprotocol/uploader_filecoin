@@ -8,6 +8,10 @@ COPY package.json yarn.lock ./
 
 RUN yarn install --pure-lockfile
 
+
+# copy env variable
+COPY .env ./
+
 # If you are building your code for production
 # RUN npm ci --only=production
 
