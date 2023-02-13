@@ -45,7 +45,7 @@ module.exports = (err, req, res, next) => {
   } else {
     return res.status(err.statusCode || 500).json({
       error: {
-        message: 'Something went wrong in the server',
+        message: err.message,
       },
     });
   }

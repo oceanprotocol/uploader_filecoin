@@ -47,7 +47,7 @@ export const checkAllowance = async (
     config.contractInfo[chainId].contract
   );
   const balanceOf = await contract.balanceOf(address);
-  return data >= amount && balanceOf >= amount;
+  return data >= +amount && balanceOf >= +amount;
 };
 
 export const buyStorage = async (user, tokenAddress, amount, chainId) => {
