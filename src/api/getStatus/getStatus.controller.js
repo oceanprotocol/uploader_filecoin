@@ -37,17 +37,22 @@ const getStatus = async (req, res) => {
 
       // randomly select one cid
       const randomCID = listCID[Math.floor(Math.random() * listCID.length)];
-      const deals = await dealDetails(randomCID);
-      if (deals.length > 0) {
-        // success fully Uploaded
-        return res.status(200).json({ status: 400 });
+
+      try {
+        const deals = await dealDetails(randomCID);
+        if (deals.length > 0) {
+          // success fully Uploaded
+          return res.status(200).json({ status: 400 });
+        }
+      } catch (err) {
+        return res.status(200).json({ status: 399 });
       }
       return res.status(200).json({ status: 399 });
     }
     // some Cid are not Pinned
     return res.status(200).json({ status: 300 });
   } catch (e) {
-    // something went wrong
+    console.log(e);
     return res.status(400).json({ error: e.message, status: 401 });
   }
 };

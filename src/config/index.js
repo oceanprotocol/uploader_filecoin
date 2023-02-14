@@ -17,7 +17,7 @@ const baseConfig = {
   database_sql: process.env.DATABASE_SQL,
   user_sql: process.env.USER_SQL,
   password_sql: process.env.PASSWORD_SQL,
-  dataname_sql: process.env.DATANAME_SQL,
+  dataname_sql: process.env.TABLENAME_SQL,
   host_sql: process.env.HOST_SQL,
   db_type: process.env.DB_TYPE,
   db_storage: process.env.DB_STORAGE,
@@ -53,7 +53,7 @@ const envVarsSchema = Joi.object({
   dataname_sql: Joi.when('db_type', {
     is: Joi.equal('mysql'),
     then: Joi.string().required().messages({
-      'any.required': 'DATANAME_SQL is required for DB_TYPE=`mysql`',
+      'any.required': 'TABLENAME_SQL is required for DB_TYPE=`mysql`',
     }),
     otherwise: Joi.string(),
   }),
