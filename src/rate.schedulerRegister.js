@@ -4,7 +4,7 @@ import config from './config';
 
 const job = async () => {
   const data = await axios({
-    url: config.dbsUrl,
+    url: config.dbsUrl + '/register',
     method: 'POST',
     headers: {
       Accept: 'application/json',
