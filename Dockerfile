@@ -19,6 +19,6 @@ COPY .env ./
 COPY . ./
 RUN yarn babel ./src --out-dir ./dist --copy-files
 
-EXPOSE 8080
+EXPOSE 3000
 
 CMD ["yarn", "start"]
