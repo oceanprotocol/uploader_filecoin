@@ -28,7 +28,7 @@
     "mysql2": "^2.3.3",
     "node-cron": "^3.0.2",
     "sequelize": "^6.25.5",
-    "sqlite3": "^5.1.4",
+    "sqlite3": "^5.1.5",
     "uuid": "^9.0.0",
     "validator": "^13.7.0",
     "web3-utils": "^1.8.2"
