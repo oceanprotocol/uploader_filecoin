@@ -38,3 +38,13 @@ export const getData = async (quoteId) => {
   }
   return Item?.dataValues;
 };
+
+export const getHistoryForAddress = async (address) => {
+  const history = await db.model.findAll({
+    where: {userAddress: address},
+    attributes: [col('quoteId'), col('tokenAmount'), col('approveAddress'), col('tokenAddress'), col('chainId'), col('requestId')]
+  });
+  console.log(history)
+
+  return history ?? null;
+};
