@@ -8,6 +8,10 @@ const getHistory = async (req, res) => {
   });
 };
 
+const rejectRequest = (req, res) =>
+  res.status(405).json({ message: 'Method Not allowed', data: {} });
+
 export default {
-  getHistory
+  getAll: getHistory,
+  rejectRequest
 };
