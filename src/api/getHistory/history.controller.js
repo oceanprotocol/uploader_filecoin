@@ -1,11 +1,11 @@
-import { retriveHistory, validateSignature } from './history.service';
-import { validateNonce } from '../upload/upload.service';
+import { retriveHistory } from './history.service';
+import { validateSignature, validateNonce } from '../upload/upload.service';
 
 const getHistory = async (req, res) => {
   const { userAddress, nonce, signature } = req.query;
 
   try {
-    if (!(await validateSignature(nonce, userAddress, signature))) {
+    if (!(await validateSignature('', nonce, userAddress, signature))) {
       return res.status(400).json({ message: 'Invalid signature', data: {} });
     }
 
