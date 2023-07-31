@@ -1,11 +1,25 @@
-import { retriveHistory } from './history.service';
+import { retriveHistory, validateSignature } from './history.service';
+import { validateNonce } from '../upload/upload.service';
 
 const getHistory = async (req, res) => {
-  const { userAddress } = req.body;
-  const data = retriveHistory(userAddress);
-  return res.status(200).json({
-    data
-  });
+  const { userAddress, nonce, signature } = req.query;
+
+  try {
+    if (!(await validateSignature(nonce, userAddress, signature))) {
+      return res.status(400).json({ message: 'Invalid signature', data: {} });
+    }
+
+    if (!(await validateNonce(userAddress, nonce))) {
+      return res.status(400).json({ message: 'Invalid nonce', data: {} });
+    }
+
+    const data = retriveHistory(userAddress);
+    return res.status(200).json({
+      data,
+    });
+  } catch (e) {
+    return res.status(400).json({ message: e.message, data: {} });
+  }
 };
 
 const rejectRequest = (req, res) =>
@@ -13,5 +27,5 @@ const rejectRequest = (req, res) =>
 
 export default {
   getAll: getHistory,
-  rejectRequest
+  rejectRequest,
 };
