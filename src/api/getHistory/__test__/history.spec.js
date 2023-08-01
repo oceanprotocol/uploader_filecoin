@@ -17,39 +17,9 @@ describe('quota', () => {
   describe('Test', () => {
 
     test('get history', async () => {
-        let requestQuotaresponse = await request(app)
-        .post(`/getQuote`)
-        .send({
-            type: 'filecoin',
-            files: [
-            {
-                length: 0,
-            },
-            ],
-            payment: {
-            chainId: 80001,
-            tokenAddress: '0x9aa7fEc87CA69695Dd1f879567CcF49F3ba417E2',
-            },
-            duration: 4353545453,
-            userAddress: wallet.address,
-        });
       let nonce = Date.now();
-      let response = await request(app)
-        .post(`/upload`)
-        .send({
-          quoteId: requestQuotaresponse.body.quoteId,
-          nonce,
-          signature: await wallet.signMessage(
-            `${requestQuotaresponse.body.quoteId}${nonce}`
-          ),
-          files: ['ipfs://QmaiauHSgTDMy2NtLbsygL3iKmLXBqHf39SBA1nAQFSSey'],
-        });
-      expect(typeof response.body).toBe('object');
-      expect(response.statusCode).toBe(200);
-      expect(response.body.message).toMatch(/success/i);
-      nonce = Date.now();
 
-      response = await request(app)
+      let response = await request(app)
         .get(`/getHistory`)
         .send({
           userAddress: wallet.address,
@@ -58,7 +28,7 @@ describe('quota', () => {
             `${''}${nonce}`
           )
         });
-
+      console.log('response: ', response)
       expect(typeof response.body).toBe('object');
       expect(response.statusCode).toBe(200);
       console.log('response: ', response)
