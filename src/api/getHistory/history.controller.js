@@ -5,7 +5,8 @@ const getHistory = async (req, res) => {
   const { userAddress, nonce, signature } = req.query;
 
   try {
-    if (!(await validateSignature('', nonce, userAddress, signature))) {
+    const quoteId = '';
+    if (!(await validateSignature(quoteId, nonce, userAddress, signature))) {
       return res.status(400).json({ message: 'Invalid signature', data: {} });
     }
 
