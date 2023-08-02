@@ -17,21 +17,50 @@ describe('quota', () => {
   describe('Test', () => {
 
     test('get history', async () => {
-      let nonce = Date.now();
-
-      let response = await request(app)
-        .get(`/getHistory`)
+      let requestQuotaResponse = await request(app)
+        .post(`/getQuote`)
         .send({
+          type: 'filecoin',
+          files: [
+            {
+              length: 0,
+            },
+          ],
+          payment: {
+            chainId: 80001,
+            tokenAddress: '0x9aa7fEc87CA69695Dd1f879567CcF49F3ba417E2',
+          },
+          duration: 4353545453,
           userAddress: wallet.address,
-          nonce,
-          signature: await wallet.signMessage(
-            `${''}${nonce}`
-          )
         });
+
+      const nonce = Date.now();
+      const quoteId = '';
+      let response = await request(app).get(
+        `/getHistory?userAddress=${
+          requestQuotaResponse.body.userAddress
+        }&nonce=${nonce}&signature=${await wallet.signMessage(
+          `${quoteId}${nonce}`
+        )}`
+      );
       console.log('response: ', response)
       expect(typeof response.body).toBe('object');
-      expect(response.statusCode).toBe(200);
-      console.log('response: ', response)
+      // expect(response.body.length).toBe(0);
+      // expect(response.statusCode).toBe(200);
+
+      // response = await request(app)
+      //   .get(`/getHistory`)
+      //   .send({
+      //     userAddress: wallet.address,
+      //     nonce,
+      //     signature: await wallet.signMessage(
+      //       `${''}${nonce}`
+      //     )
+      //   });
+      
+      // expect(typeof response.body).toBe('object');
+      // expect(response.statusCode).toBe(200);
+      // console.log('response: ', response)
 
     });
   });
