@@ -49,12 +49,15 @@ describe('getLink', () => {
           userAddress: wallet.address,
         });
       const nonce = 0;
+
+      const message = sha256(toUtf8Bytes(quoteId + nonce.toString()))
+      // Sign the original message directly
+      const signature = await signer.signMessage(message)
+
       let response = await request(app).post(
         `/getLink?quoteId=${
           requestQuotaResponse.body.quoteId
-        }&nonce=${nonce}&signature=${await wallet.signMessage(
-          `${requestQuotaResponse.body.quoteId}${nonce - 1}`
-        )}`
+        }&nonce=${nonce}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
       expect(JSON.stringify(response.body)).toMatch(/Invalid Signature/i);
@@ -79,12 +82,15 @@ describe('getLink', () => {
           userAddress: wallet.address,
         });
       const nonce = Date.now();
+
+      const message = sha256(toUtf8Bytes(quoteId + nonce.toString()))
+      // Sign the original message directly
+      const signature = await signer.signMessage(message)
+
       let response = await request(app).post(
         `/getLink?quoteId=${
           requestQuotaResponse.body.quoteId
-        }&nonce=${nonce}&signature=${await wallet.signMessage(
-          `${requestQuotaResponse.body.quoteId}${nonce}`
-        )}`
+        }&nonce=${nonce}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
       expect(response.body.length).toBe(0);

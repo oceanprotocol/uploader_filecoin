@@ -14,15 +14,17 @@ export const getQuotaData = async (quoteId) => {
 
 export const validateSignature = async (quoteId, nonce, address, signature) => {
   try {
-    const sig = await utils.splitSignature(signature);
+    // Hash the concatenated message, this has been updated to match dbs_arweave.
+    const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()));
 
-    const publicKeyToVerify = await utils
-      .verifyMessage(`${quoteId}${nonce}`, sig)
-      .toLowerCase();
-    if (address === publicKeyToVerify) {
+    const signerAddress = utils.verifyMessage(message, signature).toLowerCase();
+
+    if (address === signerAddress) {
+      console.log('Signature is valid');
       return true;
     }
   } catch (e) {
+    console.error('Error during signature validation:', e); 
     return false;
   }
   return false;
