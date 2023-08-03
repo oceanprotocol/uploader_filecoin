@@ -1,7 +1,7 @@
 import { app } from '../../../app';
 import { initializeDB } from '../../../models/data';
-import { ethers } from 'ethers';
 import request from 'supertest';
+import { utils, ethers } from 'ethers';
 
 jest.setTimeout(30000);
 
@@ -17,50 +17,19 @@ describe('quota', () => {
   describe('Test', () => {
 
     test('get history', async () => {
-      let requestQuotaResponse = await request(app)
-        .post(`/getQuote`)
-        .send({
-          type: 'filecoin',
-          files: [
-            {
-              length: 0,
-            },
-          ],
-          payment: {
-            chainId: 80001,
-            tokenAddress: '0x9aa7fEc87CA69695Dd1f879567CcF49F3ba417E2',
-          },
-          duration: 4353545453,
-          userAddress: wallet.address,
-        });
-
       const nonce = Date.now();
       const quoteId = '';
+      const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()))
+      // Sign the original message directly
+      const signature = await wallet.signMessage(message)
       let response = await request(app).get(
         `/getHistory?userAddress=${
-          requestQuotaResponse.body.userAddress
-        }&nonce=${nonce}&signature=${await wallet.signMessage(
-          `${quoteId}${nonce}`
-        )}`
+          wallet.address
+        }&nonce=${nonce}&signature=${signature}`
       );
       console.log('response: ', response)
       expect(typeof response.body).toBe('object');
-      // expect(response.body.length).toBe(0);
-      // expect(response.statusCode).toBe(200);
-
-      // response = await request(app)
-      //   .get(`/getHistory`)
-      //   .send({
-      //     userAddress: wallet.address,
-      //     nonce,
-      //     signature: await wallet.signMessage(
-      //       `${''}${nonce}`
-      //     )
-      //   });
-      
-      // expect(typeof response.body).toBe('object');
-      // expect(response.statusCode).toBe(200);
-      // console.log('response: ', response)
+      expect(response.statusCode).toBe(200);
 
     });
   });
