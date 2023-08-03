@@ -87,6 +87,7 @@ const { error, value } = envVarsSchema.validate(baseConfig, {
 });
 
 if (error) {
+  console.log(`env is missing some objects:[${error?.message}]`);
   throw new Error(`env is missing some objects:[${error?.message}]`);
 }
 
