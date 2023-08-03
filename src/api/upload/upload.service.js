@@ -17,10 +17,10 @@ export const validateSignature = async (quoteId, nonce, address, signature) => {
     // Hash the concatenated message, this has been updated to match dbs_arweave.
     const message = utils.sha256(utils.toUtf8Bytes(`${quoteId}${nonce.toString()}`));
 
-    // No need to split the signature using `utils.splitSignature` when using the default `verifyMessage` function from `ethers.js`.
     const signerAddress = utils.verifyMessage(message, signature).toLowerCase();
 
     if (address === signerAddress) {
+      console.log('Signature is valid');
       return true;
     }
   } catch (e) {
