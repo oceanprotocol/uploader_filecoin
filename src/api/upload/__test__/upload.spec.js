@@ -56,14 +56,17 @@ describe('upload', () => {
           userAddress: wallet.address,
         });
       const nonce = Date.now();
+      
+      const message = sha256(toUtf8Bytes(quoteId + nonce.toString()))
+      // Sign the original message directly
+      const signature = await signer.signMessage(message)
+
       let response = await request(app)
         .post(`/upload`)
         .send({
           quoteId: requestQuotaresponse.body.quoteId,
           nonce,
-          signature: await wallet.signMessage(
-            `${requestQuotaresponse.body.quoteId}${nonce}`
-          ),
+          signature,
           files: ['ipfs://QmaiauHSgTDMy2NtLbsygL3iKmLXBqHf39SBA1nAQFSSey'],
         });
       expect(typeof response.body).toBe('object');

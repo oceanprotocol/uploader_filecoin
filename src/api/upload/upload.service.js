@@ -15,7 +15,7 @@ export const getQuotaData = async (quoteId) => {
 export const validateSignature = async (quoteId, nonce, address, signature) => {
   try {
     // Hash the concatenated message, this has been updated to match dbs_arweave.
-    const message = utils.sha256(utils.toUtf8Bytes(`${quoteId}${nonce.toString()}`));
+    const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()));
 
     const signerAddress = utils.verifyMessage(message, signature).toLowerCase();
 
