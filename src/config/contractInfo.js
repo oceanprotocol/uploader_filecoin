@@ -10,6 +10,6 @@ export default {
       TUSD: '0x9aa7fEc87CA69695Dd1f879567CcF49F3ba417E2',
     },
     rpc: process.env.MUMBAI_RPC,
-    contract: '0x0ff9092e55d9f6CCB0DD4C490754811bc0839866',
+    contract: '0xedfA6E7A7eAdF11B7842101B09A90993538eF8e0',
   },
 };
