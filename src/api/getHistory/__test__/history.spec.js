@@ -20,6 +20,7 @@ describe('quota', () => {
       const nonce = Date.now();
       const quoteId = '';
       const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()))
+    
       // Sign the original message directly
       const signature = await wallet.signMessage(message)
       let response = await request(app).get(
