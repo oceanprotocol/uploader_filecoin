@@ -106,7 +106,7 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
       { gaslimit: 500000 }
     );
 
-    await depositContract.ManagerAddDeposit(user, tokenAddress, amount);
+    await depositContract.addDeposit(user, tokenAddress, amount);
     console.log('Storage purchased successfully');
     return true;
   } catch (e) {
