@@ -155,3 +155,26 @@ Run as Docker Image
 - Run Docker Image
 
   `docker run -p 80:3000 -d filecoin_dbs`
+
+
+## Support
+
+Please open issues on github if you need support of have any questions.
+
+## Roadmap
+
+Stay tuned for more integrations and services. Follow the issues on github to see the latest development plans.  
+
+
+## Contributing
+
+This project is fully open-source, backed by the OCEAN community and is open for contributions.
+
+## License
+
+Released under the Apache 2.0 License.
+
+## Associated Projects
+
+- [DBS Arweave microservice](https://github.com/oceanprotocol/dbs_arweave)
+- [OCEAN Decentralized Backend Storage](https://github.com/oceanprotocol/decentralized_storage_backend)
