@@ -51,7 +51,6 @@ export const getHistoryForAddress = async (address) => {
       col('requestId'),
     ],
   });
-  console.log('history: ', history);
 
   return history ?? null;
 };
