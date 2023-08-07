@@ -3,6 +3,20 @@
 A microservice for uploading files to Lighthouse. To be used with
 [Ocean Protocol Decentralized Storage Backend](https://github.com/oceanprotocol/decentralized_storage_backend).
 
+## 📜 Menu
+
+- [🔗 Endpoints](#endpoints)
+  - [💰 getQuote](#getquote)
+  - [⬆️ upload](#upload)
+  - [🔍 getStatus](#getstatus)
+  - [🔗 getLink](#getlink)
+  - [⚙️ Set Up](#set-up)
+- [🤝 Support](#support)
+- [🛣 Roadmap](#roadmap)
+- [🤝 Contributing](#contributing)
+- [📜 License](#license)
+- [🔗 Associated Projects](#associated-projects)
+
 ## Endpoints
 
 ### getQuote
@@ -223,3 +237,42 @@ Run as Docker Image
 - Run Docker Image
 
   `docker run -p 80:3000 -d filecoin_dbs`
+
+
+## Support
+
+Please open issues on github if you need support of have any questions.
+
+## Roadmap
+
+Stay tuned for more integrations and services. Follow the issues on github to see the latest development plans.  
+
+
+## 💖 Contributing
+
+We welcome contributions in form of bug reports, feature requests, code changes, or documentation improvements. Have a look at our contribution documentation for instructions and workflows:
+
+- [**Ways to Contribute →**](https://docs.oceanprotocol.com/concepts/contributing/)
+- [Code of Conduct →](https://docs.oceanprotocol.com/concepts/code-of-conduct/)
+- [Reporting Vulnerabilities →](https://docs.oceanprotocol.com/concepts/vulnerabilities/)
+
+## 🏛 License
+
+```text
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+   http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+## Associated Projects
+
+- [DBS Arweave microservice](https://github.com/oceanprotocol/dbs_arweave)
+- [OCEAN Decentralized Backend Storage](https://github.com/oceanprotocol/decentralized_storage_backend)
