@@ -3,6 +3,20 @@
 A microservice for uploading files to Lighthouse. To be used with
 [Ocean Protocol Decentralized Storage Backend](https://github.com/oceanprotocol/decentralized_storage_backend).
 
+## 📜 Menu
+
+- [🔗 Endpoints](#endpoints)
+  - [💰 getQuote](#getquote)
+  - [⬆️ upload](#upload)
+  - [🔍 getStatus](#getstatus)
+  - [🔗 getLink](#getlink)
+  - [⚙️ Set Up](#set-up)
+- [🤝 Support](#support)
+- [🛣 Roadmap](#roadmap)
+- [🤝 Contributing](#contributing)
+- [📜 License](#license)
+- [🔗 Associated Projects](#associated-projects)
+
 ## Endpoints
 
 ### getQuote
