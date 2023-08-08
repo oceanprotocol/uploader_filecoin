@@ -102,11 +102,23 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
     const depositContract = new Contract(
       config.contractInfo[chainId].contract,
       DepositABI,
-      signer,
-      { gaslimit: 500000 }
+      signer
     );
 
-    await depositContract.addDeposit(tokenAddress, amount);
+    // Estimate the gas required
+    const estimatedGas = await depositContract.estimateGas.addDeposit(
+      tokenAddress,
+      amount
+    );
+
+    // Add a buffer (10% in this case)
+    const gasWithBuffer = Math.floor(estimatedGas.toNumber() * 1.1);
+
+    // Execute the transaction with the gas buffer
+    await depositContract.addDeposit(tokenAddress, amount, {
+      gasLimit: gasWithBuffer,
+    });
+
     console.log('Storage purchased successfully');
     return true;
   } catch (e) {
