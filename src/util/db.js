@@ -43,7 +43,7 @@ export const getHistoryForAddress = async (address) => {
   const history = await db.model.findAll({
     where: { userAddress: address },
     attributes: [
-      [sequelize.literal('filecoin'), 'type'],
+      [sequelize.literal("'filecoin'"), 'type'],
       col('quoteId'),
       col('tokenAmount'),
       col('approveAddress'),
