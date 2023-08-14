@@ -178,7 +178,8 @@ Returns:
 ```json
 [
     {
-       "quoteId": "arweave",
+       "type": "filecoin",
+       "quoteId": "xxxx",
        "chainId": 80001,
        "tokenAddress": "0x222",
        "tokenAmount": "999999999",

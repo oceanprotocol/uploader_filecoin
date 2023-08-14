@@ -1,4 +1,4 @@
-import { col, fn } from 'sequelize';
+import { col, fn, sequelize } from 'sequelize';
 import db from '../models/data';
 
 async function updateOrCreate(model, quoteId, newItem) {
@@ -43,6 +43,7 @@ export const getHistoryForAddress = async (address) => {
   const history = await db.model.findAll({
     where: { userAddress: address },
     attributes: [
+      [sequelize.literal("'filecoin'"), 'type'],
       col('quoteId'),
       col('tokenAmount'),
       col('approveAddress'),
