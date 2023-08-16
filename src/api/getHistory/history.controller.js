@@ -19,7 +19,7 @@ const getHistory = async (req, res) => {
       data,
     });
   } catch (e) {
-    return res.status(400).json({ message: e.message, data: {} });
+    return res.status(500).json({ message: e.message, data: {} });
   }
 };
 
