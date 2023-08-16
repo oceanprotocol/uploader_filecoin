@@ -32,7 +32,7 @@ export const validateSignature = async (quoteId, nonce, address, signature) => {
     const signerAddress = utils.verifyMessage(message, signature).toLowerCase();
     console.log('Resolved signer address:', signerAddress);
 
-    if (address === signerAddress) {
+    if (address.toLowerCase() === signerAddress) {
       console.log('Signature is valid');
       return true;
     }

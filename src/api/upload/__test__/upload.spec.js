@@ -57,7 +57,7 @@ describe('upload', () => {
         });
       const nonce = Date.now();
       
-      const message = sha256(toUtf8Bytes(quoteId + nonce.toString()))
+      const message = sha256(toUtf8Bytes(requestQuotaresponse.body.quoteId + nonce.toString()))
       // Sign the original message directly
       const signature = await signer.signMessage(message)
 

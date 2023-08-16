@@ -6,7 +6,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "build": "babel src --out-dir dist",
-    "test": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent",
+    "test": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent=false",
     "coverage": "cross-env NODE_ENV=testing jest --forceExit --detectOpenHandles  --silent --coverage",
     "dev": "nodemon   --exec yarn restart",
     "restart": "rimraf dist && yarn build && yarn start",

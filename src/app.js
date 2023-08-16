@@ -10,6 +10,7 @@ import uploadRouter from './api/upload/upload.route';
 import getStatusRouter from './api/getStatus/getStatus.route';
 import tasks from './rate.schedulerRegister';
 import getLinkRouter from './api/getLink/getLink.route';
+import historyRouter from './api/getHistory/history.route';
 
 export const app = express();
 
@@ -25,6 +26,7 @@ app.use('/getQuote', quotaRouter);
 app.use('/upload', uploadRouter);
 app.use('/getStatus', getStatusRouter);
 app.use('/getLink', getLinkRouter);
+app.use('/getHistory', historyRouter);
 
 app.use(errorHandler);
 
