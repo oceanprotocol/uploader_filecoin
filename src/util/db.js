@@ -49,9 +49,15 @@ export const getHistoryForAddress = async (address) => {
       col('approveAddress'),
       col('tokenAddress'),
       col('chainId'),
-      col('requestId'),
+      col('requestID'),
+      col('isUsed'),
+      col('createdAt'),
+      col('updatedAt'),
     ],
   });
+
+  console.log('retrived history: ', history);
+  console.log('history dataValues: ', history?.dataValues);
 
   return history ?? null;
 };

@@ -14,9 +14,12 @@ const getHistory = async (req, res) => {
       return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
-    const data = await retriveHistory(userAddress);
+    let retrievedHistory = await retriveHistory(userAddress);
+    console.log('data from controller: ', retrievedHistory);
+    console.log('data.data: ', retrievedHistory.data);
+    retrievedHistory = retrievedHistory.data;
     return res.status(200).json({
-      data,
+      retrievedHistory,
     });
   } catch (e) {
     return res.status(500).json({ message: e.message, data: {} });
