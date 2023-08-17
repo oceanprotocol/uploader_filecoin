@@ -44,20 +44,46 @@ export const getHistoryForAddress = async (address) => {
     where: { userAddress: address },
     attributes: [
       [literal("'filecoin'"), 'type'],
-      col('quoteId'),
-      col('tokenAmount'),
-      col('approveAddress'),
-      col('tokenAddress'),
-      col('chainId'),
-      col('requestID'),
-      col('isUsed'),
-      col('createdAt'),
-      col('updatedAt'),
+      [col('quoteId'), 'quoteId'],
+      [col('tokenAmount'), 'tokenAmount'],
+      [col('approveAddress'), 'approveAddress'],
+      [col('tokenAddress'), 'tokenAddress'],
+      [col('chainId'), 'chainId'],
+      [col('requestID'), 'requestID'],
+      [col('isUsed'), 'isUsed'],
+      [col('createdAt'), 'createdAt'],
+      [col('updatedAt'), 'updatedAt'],
     ],
   });
 
-  console.log('retrived history: ', history);
-  console.log('history dataValues: ', history?.dataValues);
+  if (history.length > 0) {
+    const firstRow = history[0];
+    const {
+      type,
+      quoteId,
+      tokenAmount,
+      approveAddress,
+      tokenAddress,
+      chainId,
+      requestID,
+      isUsed,
+      createdAt,
+      updatedAt,
+    } = firstRow.dataValues;
+
+    console.log('Type:', type);
+    console.log('Quote ID:', quoteId);
+    console.log('Token Amount:', tokenAmount);
+    console.log('Approve Address:', approveAddress);
+    console.log('Token Address:', tokenAddress);
+    console.log('Chain ID:', chainId);
+    console.log('Request ID:', requestID);
+    console.log('Is used:', isUsed);
+    console.log('created At:', createdAt);
+    console.log('updated at:', updatedAt);
+  } else {
+    console.log('No history found for the specified user address.');
+  }
 
   return history ?? null;
 };
