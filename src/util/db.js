@@ -56,8 +56,9 @@ export const getHistoryForAddress = async (address) => {
     ],
   });
 
-  if (history.length > 0) {
-    const firstRow = history[0];
+  const values = [];
+  for (let i = 0; i < history.length; ++i) {
+    const row = history[i];
     const {
       type,
       quoteId,
@@ -69,8 +70,19 @@ export const getHistoryForAddress = async (address) => {
       isUsed,
       createdAt,
       updatedAt,
-    } = firstRow.dataValues;
-
+    } = row.dataValues;
+    values.push({
+      type,
+      quoteId,
+      tokenAmount,
+      approveAddress,
+      tokenAddress,
+      chainId,
+      requestID,
+      isUsed,
+      createdAt,
+      updatedAt,
+    });
     console.log('Type:', type);
     console.log('Quote ID:', quoteId);
     console.log('Token Amount:', tokenAmount);
@@ -78,12 +90,6 @@ export const getHistoryForAddress = async (address) => {
     console.log('Token Address:', tokenAddress);
     console.log('Chain ID:', chainId);
     console.log('Request ID:', requestID);
-    console.log('Is used:', isUsed);
-    console.log('created At:', createdAt);
-    console.log('updated at:', updatedAt);
-  } else {
-    console.log('No history found for the specified user address.');
   }
-
-  return history ?? null;
+  return values ?? null;
 };
