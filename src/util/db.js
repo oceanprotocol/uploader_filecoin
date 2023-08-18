@@ -45,6 +45,7 @@ export const getHistoryForAddress = async (address) => {
     attributes: [
       [literal("'filecoin'"), 'type'],
       [col('quoteId'), 'quoteId'],
+      [col('userAddress'), 'userAddress'],
       [col('tokenAmount'), 'tokenAmount'],
       [col('approveAddress'), 'approveAddress'],
       [col('tokenAddress'), 'tokenAddress'],
@@ -57,11 +58,12 @@ export const getHistoryForAddress = async (address) => {
   });
 
   const values = [];
-  for (let i = 0; i < history.length; ++i) {
+  for (let i = 0; i < 25; ++i) {
     const row = history[i];
     const {
       type,
       quoteId,
+      userAddress,
       tokenAmount,
       approveAddress,
       tokenAddress,
@@ -74,6 +76,7 @@ export const getHistoryForAddress = async (address) => {
     values.push({
       type,
       quoteId,
+      userAddress,
       tokenAmount,
       approveAddress,
       tokenAddress,
@@ -85,11 +88,19 @@ export const getHistoryForAddress = async (address) => {
     });
     console.log('Type:', type);
     console.log('Quote ID:', quoteId);
+    console.log('User Address:', userAddress);
     console.log('Token Amount:', tokenAmount);
     console.log('Approve Address:', approveAddress);
     console.log('Token Address:', tokenAddress);
     console.log('Chain ID:', chainId);
     console.log('Request ID:', requestID);
   }
-  return values ?? null;
+  if (values) {
+    const filteredValues = values.filter(
+      (value) => value.userAddress === address
+    );
+    console.log('filteredValues: ', filteredValues);
+    return filteredValues;
+  }
+  return null;
 };
