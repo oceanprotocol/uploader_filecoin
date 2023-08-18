@@ -58,7 +58,9 @@ export const getHistoryForAddress = async (address) => {
   });
 
   const values = [];
-  for (let i = 0; i < 25; ++i) {
+  const { length } = history;
+  const maxLength = Math.min(length, 25);
+  for (let i = 0; i < maxLength; ++i) {
     const row = history[i];
     const {
       type,
