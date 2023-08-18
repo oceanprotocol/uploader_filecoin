@@ -180,6 +180,7 @@ Returns:
     {
        "type": "filecoin",
        "quoteId": "xxxx",
+       "userAddress": "0x111",
        "chainId": 80001,
        "tokenAddress": "0x222",
        "tokenAmount": "999999999",
