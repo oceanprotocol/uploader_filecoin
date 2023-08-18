@@ -6,15 +6,23 @@ const getHistory = async (req, res) => {
 
   try {
     const quoteId = '';
-    if (!(await validateSignature(quoteId, nonce, userAddress, signature))) {
+    const userAddressLowerCase = userAddress.toLowerCase();
+    if (
+      !(await validateSignature(
+        quoteId,
+        nonce,
+        userAddressLowerCase,
+        signature
+      ))
+    ) {
       return res.status(400).json({ message: 'Invalid signature', data: {} });
     }
 
-    if (!(await validateNonce(userAddress, nonce))) {
+    if (!(await validateNonce(userAddressLowerCase, nonce))) {
       return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
-    const data = await retriveHistory(userAddress);
+    const data = await retriveHistory(userAddressLowerCase);
     return res.status(200).json({
       data,
     });
