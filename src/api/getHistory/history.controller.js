@@ -2,7 +2,7 @@ import { retriveHistory } from './history.service';
 import { validateSignature, validateNonce } from '../upload/upload.service';
 
 const getHistory = async (req, res) => {
-  const { userAddress, nonce, signature } = req.query;
+  const { userAddress, nonce, signature, page = 1, pageSize = 10 } = req.query;
 
   try {
     const quoteId = '';
@@ -22,7 +22,7 @@ const getHistory = async (req, res) => {
       return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
-    const data = await retriveHistory(userAddressLowerCase);
+    const data = await retriveHistory(userAddressLowerCase, page, pageSize);
     return res.status(200).json({
       data,
     });
