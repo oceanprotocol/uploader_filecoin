@@ -2,7 +2,7 @@ import { retriveHistory } from './history.service';
 import { validateSignature, validateNonce } from '../upload/upload.service';
 
 const getHistory = async (req, res) => {
-  const { userAddress, nonce, signature, page = 1, pageSize = 10 } = req.query;
+  const { userAddress, nonce, signature, page = 1, pageSize = 25 } = req.query;
 
   try {
     const quoteId = '';
