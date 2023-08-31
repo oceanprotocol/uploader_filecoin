@@ -39,9 +39,14 @@ export const getData = async (quoteId) => {
   return Item?.dataValues;
 };
 
-export const getHistoryForAddress = async (address) => {
+export const getHistoryForAddress = async (address, page, pageSize) => {
+  const offset = (page - 1) * pageSize;
+  const limit = pageSize;
+
   const history = await db.model.findAll({
     where: { userAddress: address },
+    offset,
+    limit,
     attributes: [
       [literal("'filecoin'"), 'type'],
       [col('quoteId'), 'quoteId'],
