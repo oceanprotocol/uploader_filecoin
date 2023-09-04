@@ -39,14 +39,18 @@ export const getData = async (quoteId) => {
   return Item?.dataValues;
 };
 
-export const getHistoryForAddress = async (address, page, pageSize) => {
-  const offset = (page - 1) * pageSize;
-  const limit = pageSize;
+export const getHistoryForAddress = async (address, page, limit) => {
+  const offset = (page - 1) * limit;
+
+  const integerLimit = Number.isInteger(limit) ? limit : 25;
+  const integerOffset = Number.isInteger(offset) ? offset : 0;
+
+  console.log('Offset:', integerOffset, 'Limit', integerLimit);
 
   const history = await db.model.findAll({
     where: { userAddress: address },
-    offset,
-    limit,
+    offset: integerOffset,
+    limit: integerLimit,
     attributes: [
       [literal("'filecoin'"), 'type'],
       [col('quoteId'), 'quoteId'],
@@ -109,5 +113,5 @@ export const getHistoryForAddress = async (address, page, pageSize) => {
     console.log('filteredValues: ', filteredValues);
     return filteredValues;
   }
-  return null;
+  return [];
 };
