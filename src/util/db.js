@@ -113,5 +113,5 @@ export const getHistoryForAddress = async (address, page, limit) => {
     console.log('filteredValues: ', filteredValues);
     return filteredValues;
   }
-  return null;
+  return [];
 };
