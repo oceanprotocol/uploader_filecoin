@@ -106,13 +106,29 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
     );
 
     // Estimate the gas required
-    const estimatedGas = await depositContract.estimateGas.addDeposit(
-      tokenAddress,
-      amount
-    );
+    let estimatedGas;
+    try {
+      estimatedGas = await depositContract.estimateGas.ManagerAddDeposit(
+        user,
+        tokenAddress,
+        amount
+      );
+      console.log('Estimated Gas: ', estimatedGas);
+    } catch (error) {
+      console.log('Failed to estimate gas: ', error);
+      // Fallback to a default gas limit if estimation fails
+      estimatedGas = 500000; // Set a default
+    }
+
+    console.log('Estimated Gas: ', estimatedGas);
 
     // Add a buffer (10% in this case)
-    const gasWithBuffer = Math.floor(estimatedGas.toNumber() * 1.1);
+    const gasWithBuffer = Math.floor(
+      (typeof estimatedGas === 'number'
+        ? estimatedGas
+        : estimatedGas.toNumber()) * 1.1
+    );
+    console.log('Gas with buffer:', gasWithBuffer);
 
     // Execute the transaction with the gas buffer
     await depositContract.ManagerAddDeposit(user, tokenAddress, amount, {
