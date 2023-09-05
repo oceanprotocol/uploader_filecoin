@@ -22,7 +22,11 @@ const getHistory = async (req, res) => {
       return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
-    const data = await retriveHistory(userAddressLowerCase, page, pageSize);
+    const data = await retriveHistory(
+      userAddressLowerCase,
+      Number(page),
+      Number(pageSize)
+    );
     return res.status(200).json({
       data,
     });
