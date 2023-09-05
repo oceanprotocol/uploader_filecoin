@@ -115,7 +115,7 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
     const gasWithBuffer = Math.floor(estimatedGas.toNumber() * 1.1);
 
     // Execute the transaction with the gas buffer
-    await depositContract.addDeposit(tokenAddress, amount, {
+    await depositContract.ManagerAddDeposit(user, tokenAddress, amount, {
       gasLimit: gasWithBuffer,
     });
 
