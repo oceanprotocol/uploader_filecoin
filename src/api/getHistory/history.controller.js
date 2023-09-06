@@ -28,14 +28,12 @@ const getHistory = async (req, res) => {
       return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
-    const data = await retriveHistory(
+    const history = await retriveHistory(
       userAddressLowerCase,
       Number(page),
       Number(pageSize)
     );
-    return res.status(200).json({
-      data,
-    });
+    return res.status(200).send(history);
   } catch (e) {
     return res.status(500).json({ message: e.message, data: {} });
   }
