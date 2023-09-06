@@ -79,11 +79,11 @@ export const getHistoryForAddress = async (address, page, limit) => {
       [col('updatedAt'), 'updatedAt'],
     ],
   });
+  console.log('history.length', history.length);
 
   const values = [];
-  const { length } = history;
-  const maxLength = Math.min(length, 25);
-  for (let i = 0; i < maxLength; ++i) {
+
+  for (let i = 0; i < history.length; ++i) {
     const row = history[i];
     const {
       type,
