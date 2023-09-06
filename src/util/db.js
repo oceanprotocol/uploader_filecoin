@@ -40,6 +40,11 @@ export const getData = async (quoteId) => {
 };
 
 export const getHistoryForAddress = async (address, page, limit) => {
+  console.log('getHistoryForAddress');
+  console.log('Address:', address);
+  console.log('Page:', page);
+  console.log('Limit:', limit);
+
   const offset = (page - 1) * limit;
 
   const integerLimit = Number.isInteger(limit) ? limit : 25;
