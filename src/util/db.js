@@ -132,6 +132,7 @@ export const getHistoryForAddress = async (address, page, limit) => {
     };
   }
   return {
+    type: 'filecoin',
     maxPages: 0,
     data: [],
   };
