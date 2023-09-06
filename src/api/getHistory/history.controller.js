@@ -2,7 +2,13 @@ import { retriveHistory } from './history.service';
 import { validateSignature, validateNonce } from '../upload/upload.service';
 
 const getHistory = async (req, res) => {
+  console.log('getHistory');
   const { userAddress, nonce, signature, page = 1, pageSize = 25 } = req.query;
+  console.log('Address:', userAddress);
+  console.log('Nonce:', nonce);
+  console.log('Signature:', signature);
+  console.log('Page:', page);
+  console.log('PageSize:', pageSize);
 
   try {
     const quoteId = '';
