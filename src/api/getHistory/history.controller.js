@@ -33,7 +33,7 @@ const getHistory = async (req, res) => {
       Number(page),
       Number(pageSize)
     );
-    return res.status(200).send(history);
+    res.send(history);
   } catch (e) {
     return res.status(500).json({ message: e.message, data: {} });
   }
