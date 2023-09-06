@@ -79,6 +79,7 @@ export const getHistoryForAddress = async (address, page, limit) => {
       [col('updatedAt'), 'updatedAt'],
     ],
   });
+  console.log('history.length', history.length);
 
   const values = [];
 
