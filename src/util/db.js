@@ -52,6 +52,15 @@ export const getHistoryForAddress = async (address, page, limit) => {
 
   console.log('Offset:', integerOffset, 'Limit', integerLimit);
 
+  // Get total count to calculate maxPages
+  const totalCount = await db.model.count({
+    where: { userAddress: address },
+  });
+  console.log('Total Count:', totalCount);
+
+  const maxPages = Math.ceil(totalCount / integerLimit);
+  console.log('Max Pages:', maxPages);
+
   const history = await db.model.findAll({
     where: { userAddress: address },
     offset: integerOffset,
@@ -116,7 +125,14 @@ export const getHistoryForAddress = async (address, page, limit) => {
       (value) => value.userAddress === address
     );
     console.log('filteredValues: ', filteredValues);
-    return filteredValues;
+    return {
+      type: 'filecoin',
+      maxPages,
+      data: filteredValues,
+    };
   }
-  return [];
+  return {
+    maxPages: 0,
+    data: [],
+  };
 };
