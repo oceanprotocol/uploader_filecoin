@@ -1,4 +1,4 @@
-import { retriveHistory } from './history.service';
+import { retrieveHistory } from './history.service';
 import { validateSignature, validateNonce } from '../upload/upload.service';
 
 const getHistory = async (req, res) => {
@@ -28,7 +28,7 @@ const getHistory = async (req, res) => {
       return res.status(400).json({ message: 'Invalid nonce', data: {} });
     }
 
-    const history = await retriveHistory(
+    const history = await retrieveHistory(
       userAddressLowerCase,
       Number(page),
       Number(pageSize)

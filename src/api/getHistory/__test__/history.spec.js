@@ -5,7 +5,7 @@ import { utils, ethers } from 'ethers';
 
 jest.setTimeout(30000);
 
-describe('quota', () => {
+describe('getHistory', () => {
   const wallet = new ethers.Wallet(
     '0x6aa0ee41fa9cf65f90c06e5db8fa2834399b59b37974b21f2e405955630d472a'
   );
@@ -29,7 +29,7 @@ describe('quota', () => {
       );
       expect(typeof response.body).toBe('object');
       expect(response.statusCode).toBe(200);
-      expect(response.body.data.length).toBe(0);
+      expect(response.body.data.length).toBeGreaterThan(0);
     });
 
     test('fails if method not allowed', async () => {
@@ -52,8 +52,7 @@ describe('quota', () => {
     test('fails if signature not provided', async () => {
       const signature = '';
       let response = await request(app).get(
-        `/getHistory?userAddress=${
-          wallet.address
+        `/getHistory?userAddress=${wallet.address
         }&nonce=${0}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');

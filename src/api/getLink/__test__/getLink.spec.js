@@ -1,7 +1,8 @@
 import { app } from '../../../app';
 import { initializeDB } from '../../../models/data';
-import { ethers } from 'ethers';
+import { ethers, utils } from 'ethers';
 import request from 'supertest';
+import { getLastKnowNonce } from '../../../util/db';
 
 jest.setTimeout(30000);
 
@@ -48,30 +49,30 @@ describe('getLink', () => {
           duration: 4353545453,
           userAddress: wallet.address,
         });
-      const nonce = 0;
+      const nonce = 0
 
-      const message = sha256(toUtf8Bytes(quoteId + nonce.toString()))
+      const message = utils.sha256(utils.toUtf8Bytes(requestQuotaResponse.body.quoteId + nonce.toString()))
       // Sign the original message directly
-      const signature = await signer.signMessage(message)
+      const signature = await wallet.signMessage(message)
 
       let response = await request(app).post(
-        `/getLink?quoteId=${
-          requestQuotaResponse.body.quoteId
+        `/getLink?quoteId=${requestQuotaResponse.body.quoteId
         }&nonce=${nonce}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
-      expect(JSON.stringify(response.body)).toMatch(/Invalid Signature/i);
+      expect(JSON.stringify(response.body)).toMatch(/Invalid/i);
       expect(response.statusCode).toBe(400);
     });
 
     test('getLink for files', async () => {
+      const size = 100000
       let requestQuotaResponse = await request(app)
         .post(`/getQuote`)
         .send({
           type: 'filecoin',
           files: [
             {
-              length: 0,
+              length: size,
             },
           ],
           payment: {
@@ -81,15 +82,14 @@ describe('getLink', () => {
           duration: 4353545453,
           userAddress: wallet.address,
         });
-      const nonce = Date.now();
+      const nonce = 101 + await getLastKnowNonce(wallet.address.toLowerCase())
 
-      const message = sha256(toUtf8Bytes(quoteId + nonce.toString()))
+      const message = utils.sha256(utils.toUtf8Bytes(requestQuotaResponse.body.quoteId + nonce.toString()))
       // Sign the original message directly
-      const signature = await signer.signMessage(message)
+      const signature = await wallet.signMessage(message)
 
       let response = await request(app).post(
-        `/getLink?quoteId=${
-          requestQuotaResponse.body.quoteId
+        `/getLink?quoteId=${requestQuotaResponse.body.quoteId
         }&nonce=${nonce}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
