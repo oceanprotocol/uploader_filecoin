@@ -1,8 +1,10 @@
 import cron from 'node-cron';
 import axios from 'axios';
 import config from './config';
+import { ethers } from 'ethers';
 
 const job = async () => {
+  const userWallet = new ethers.Wallet(config.privateKey);
   const data = await axios({
     url: config.dbsUrl,
     method: 'POST',
@@ -18,8 +20,9 @@ const job = async () => {
         chainId: key,
         acceptedTokens: Object.entries(value.currency).map(
           ([_key, _value]) => ({ [_key]: _value })
-        ),
+        )
       })),
+      signature: await userWallet.signMessage(config.locationUrl) 
     },
   })
     .then((res) => res.data)
