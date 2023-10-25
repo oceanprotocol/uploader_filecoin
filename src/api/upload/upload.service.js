@@ -145,6 +145,15 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
 
 export const migrateCIDS = async (user, files) => {
   console.log('Migrating CIDS for user and files:', user, files);
+  console.log(`using token: Bearer ${config.bearer_token}`);
+  const data = {
+    data: JSON.stringify(
+      files.map((fileObj) => fileObj.ipfs_uri.split('//')[1])
+    ), // Adjusted this line
+    publicKey: user,
+    enterprise: 'ocean_protocol',
+  };
+  console.log('sending data: ', data);
 
   try {
     const response = await axios({
@@ -155,13 +164,7 @@ export const migrateCIDS = async (user, files) => {
         'Content-Type': 'application/json;charset=UTF-8',
         Authorization: `Bearer ${config.bearer_token}`,
       },
-      data: {
-        data: JSON.stringify(
-          files.map((fileObj) => fileObj.ipfs_uri.split('//')[1])
-        ), // Adjusted this line
-        publicKey: user,
-        enterprise: 'ocean_protocol',
-      },
+      data,
     });
 
     console.log('Migration response:', response.data);
