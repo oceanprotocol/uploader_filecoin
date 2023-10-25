@@ -156,7 +156,9 @@ export const migrateCIDS = async (user, files) => {
         Authorization: `Bearer ${config.bearer_token}`,
       },
       data: {
-        data: JSON.stringify(files.map((elem) => elem.split('//')[1])),
+        data: JSON.stringify(
+          files.map((fileObj) => fileObj.ipfs_uri.split('//')[1])
+        ), // Adjusted this line
         publicKey: user,
         enterprise: 'ocean_protocol',
       },
