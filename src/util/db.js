@@ -39,11 +39,10 @@ export const updateData = async (updatedDetails) => {
 
   try {
     const result = await db.model.update(updatedDetails, updateOptions);
+    console.log('result', result);
 
     if (result && Array.isArray(result) && result.length > 1) {
-      const updatedRows = result[1];
-      console.log('Database update executed. Rows updated:', updatedRows);
-      return updatedRows?.map((row) => row.dataValues); // Your ORM might differ
+      return result;
     }
     console.log('Database update executed. No rows were updated.');
     return null;
