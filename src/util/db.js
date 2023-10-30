@@ -25,20 +25,53 @@ export const getLastKnowNonce = async (address) => {
   return +data?.dataValues?.maxNonce ?? 0;
 };
 
-export const updateData = async (updatedDetails) =>
-  (
-    await db.model.update(updatedDetails, {
-      where: { quoteId: updatedDetails.quoteId },
-    })
-  )?.dataValues;
-export const getData = async (quoteId) => {
-  const Item = await db.model.findOne({ where: { quoteId } });
-  if (!Item) {
+export const updateData = async (updatedDetails) => {
+  console.log('Function updateData called with parameters:', updatedDetails);
+
+  // Construct the update options
+  const updateOptions = {
+    where: { quoteId: updatedDetails.quoteId },
+    returning: true, // Ensure that the updated data is returned if your ORM supports it
+  };
+
+  console.log('Executing database update with payload:', updatedDetails);
+  console.log('Using update options:', updateOptions);
+
+  try {
+    const result = await db.model.update(updatedDetails, updateOptions);
+
+    if (result && Array.isArray(result) && result.length > 1) {
+      const updatedRows = result[1];
+      console.log('Database update executed. Rows updated:', updatedRows);
+      return updatedRows?.map((row) => row.dataValues); // Your ORM might differ
+    }
+    console.log('Database update executed. No rows were updated.');
     return null;
+  } catch (error) {
+    console.error('Error during database update:', error.message, error.stack);
+    throw error;
   }
-  return Item?.dataValues;
 };
 
+export const getData = async (quoteId) => {
+  console.log('Function getData called with quoteId:', quoteId);
+
+  try {
+    const Item = await db.model.findOne({ where: { quoteId } });
+    console.log('Database query executed.');
+
+    if (!Item) {
+      console.log(`No record found for quoteId: ${quoteId}`);
+      return null;
+    }
+
+    console.log(`Record found for quoteId: ${quoteId}`, Item.dataValues);
+    return Item.dataValues;
+  } catch (error) {
+    console.error('Error during database query:', error.message, error.stack);
+    throw error;
+  }
+};
 export const getHistoryForAddress = async (address, page, limit) => {
   console.log('getHistoryForAddress');
   console.log('Address:', address);
