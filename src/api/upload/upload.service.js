@@ -174,8 +174,13 @@ export const migrateCIDS = async (user, files) => {
     throw e;
   }
 };
-
 export const updateRow = async (nonce, quoteId, data) => {
+  console.log('Function updateRow called with parameters:', {
+    nonce,
+    quoteId,
+    data,
+  });
+
   console.log(
     'Updating row for nonce, quoteId and data:',
     nonce,
@@ -184,17 +189,19 @@ export const updateRow = async (nonce, quoteId, data) => {
   );
 
   try {
+    console.log('Attempting to update data in database');
     const result = await updateData({
       quoteId,
       ...data,
       nonce,
       isUsed: true,
     });
+    console.log('Data update attempted. Checking for result.');
 
     console.log('Row updated with result:', result);
     return result;
   } catch (e) {
-    console.error('Error during row update:', e);
+    console.error('Detailed error during row update:', e.message, e.stack);
     throw e;
   }
 };
