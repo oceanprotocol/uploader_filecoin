@@ -45,7 +45,6 @@ const getStatus = async (req, res) => {
   try {
     console.log('Trying to check CID status');
     const response = await checkCID(data.requestID);
-    console.log(`Checked CID successfully: ${JSON.stringify(response)}`);
 
     if (
       response?.data?.filter((e) => e?.cidStatus !== 'pinned')?.length === 0
@@ -62,12 +61,11 @@ const getStatus = async (req, res) => {
       try {
         console.log('Trying to get deal details');
         const deals = await dealDetails(randomCID);
-        console.log(
-          `Fetched deal details successfully: ${JSON.stringify(deals)}`
-        );
+        console.log('Fetched deal details successfully');
 
         if (deals.length > 0) {
           // success fully Uploaded
+          console.log('Deals length:', deals.length);
           return res.status(200).json({ status: 400 });
         }
       } catch (err) {
@@ -77,6 +75,7 @@ const getStatus = async (req, res) => {
       return res.status(200).json({ status: 399 });
     }
     // some Cid are not Pinned
+    console.log('some Cid are not Pinned');
     return res.status(200).json({ status: 300 });
   } catch (e) {
     console.log('Error in CID check block', e);
