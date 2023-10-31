@@ -5,7 +5,7 @@ const uploadRouter = Router();
 
 uploadRouter
   .route('/')
-  .get(controllers.rejectRequest)
+  .get(controllers.getOne)
   .post(controllers.getOne)
   .put(controllers.rejectRequest);
 
