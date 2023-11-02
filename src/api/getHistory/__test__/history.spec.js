@@ -18,9 +18,7 @@ describe('getHistory', () => {
     test('get history', async () => {
       const nonce = Date.now();
       const quoteId = '';
-      const message = utils.sha256(
-        utils.toUtf8Bytes(quoteId + nonce.toString())
-      );
+      const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()));
 
       // Sign the original message directly
       const signature = await wallet.signMessage(message);
@@ -35,9 +33,7 @@ describe('getHistory', () => {
     test('fails if method not allowed', async () => {
       const nonce = Date.now();
       const quoteId = '';
-      const message = utils.sha256(
-        utils.toUtf8Bytes(quoteId + nonce.toString())
-      );
+      const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()));
 
       // Sign the original message directly
       const signature = await wallet.signMessage(message);
@@ -52,8 +48,7 @@ describe('getHistory', () => {
     test('fails if signature not provided', async () => {
       const signature = '';
       let response = await request(app).get(
-        `/getHistory?userAddress=${wallet.address
-        }&nonce=${0}&signature=${signature}`
+        `/getHistory?userAddress=${wallet.address}&nonce=${0}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
       expect(response.statusCode).toBe(400);
@@ -63,9 +58,7 @@ describe('getHistory', () => {
     test('get history with pagination', async () => {
       const nonce = Date.now();
       const quoteId = '';
-      const message = utils.sha256(
-        utils.toUtf8Bytes(quoteId + nonce.toString())
-      );
+      const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()));
 
       // Sign the original message directly
       const signature = await wallet.signMessage(message);

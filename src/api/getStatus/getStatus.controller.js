@@ -12,12 +12,7 @@ const getStatus = async (req, res) => {
 
   if (!data.isUsed) {
     if (
-      !(await checkAllowance(
-        data.tokenAddress,
-        data.userAddress,
-        data.tokenAmount,
-        data.chainId
-      ))
+      !(await checkAllowance(data.tokenAddress, data.userAddress, data.tokenAmount, data.chainId))
     ) {
       // Inadequate Balance or token Allowance given
       return res.status(200).json({ status: 199 });
@@ -28,9 +23,7 @@ const getStatus = async (req, res) => {
   //
   try {
     const response = await checkCID(data.requestID);
-    if (
-      response?.data?.filter((e) => e?.cidStatus !== 'pinned')?.length === 0
-    ) {
+    if (response?.data?.filter((e) => e?.cidStatus !== 'pinned')?.length === 0) {
       const listCID = response?.data?.map((elem) => elem.cid);
 
       // filecoin deals are made in Batch, A request belongs to the same deal

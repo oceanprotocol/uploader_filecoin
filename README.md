@@ -119,6 +119,7 @@ Where:
 | 401    | Upload failure                                          |
 
 ### getLink
+
 Description: Gets DDO files object for a job
 
 Path: POST /getLink?quoteId=xxx&nonce=1&signature=0xXXXXX
@@ -127,11 +128,10 @@ Input:
 
 ```json
 {
-    "quoteId": "23",
-    "nonce": 12345.12345,
-    "signature": "0x2222"
+  "quoteId": "23",
+  "nonce": 12345.12345,
+  "signature": "0x2222"
 }
-
 ```
 
 Where:
@@ -144,14 +144,15 @@ Returns:
 
 ```json
 [
-    {
-       "type": "arweave",
-       "transactionHash": "xxxx"
-    }
+  {
+    "type": "filecoin",
+    "transactionHash": "xxxx"
+  }
 ]
 ```
 
 ### getHistory
+
 Description: Gets history quotes for a certain user
 
 Path: GET /getHistory?userAddress=xxx&nonce=1&signature=0xXXXXX
@@ -160,11 +161,10 @@ Input:
 
 ```json
 {
-    "userAddress": "0x1234",
-    "nonce": 12345.12345,
-    "signature": "0x2222"
+  "userAddress": "0x1234",
+  "nonce": 12345.12345,
+  "signature": "0x2222"
 }
-
 ```
 
 Where:
@@ -177,16 +177,16 @@ Returns:
 
 ```json
 [
-    {
-       "type": "filecoin",
-       "quoteId": "xxxx",
-       "userAddress": "0x111",
-       "chainId": 80001,
-       "tokenAddress": "0x222",
-       "tokenAmount": "999999999",
-       "approveAddress": "0x1234",
-       "requestId": "xxxx"
-    }
+  {
+    "type": "filecoin",
+    "quoteId": "xxxx",
+    "userAddress": "0x111",
+    "chainId": 80001,
+    "tokenAddress": "0x222",
+    "tokenAmount": "999999999",
+    "approveAddress": "0x1234",
+    "requestId": "xxxx"
+  }
 ]
 ```
 
@@ -241,15 +241,13 @@ Run as Docker Image
 
   `docker run -p 80:3000 -d filecoin_dbs`
 
-
 ## Support
 
 Please open issues on github if you need support of have any questions.
 
 ## Roadmap
 
-Stay tuned for more integrations and services. Follow the issues on github to see the latest development plans.  
-
+Stay tuned for more integrations and services. Follow the issues on github to see the latest development plans.
 
 ## 💖 Contributing
 

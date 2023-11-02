@@ -121,9 +121,7 @@ export const getHistoryForAddress = async (address, page, limit) => {
     console.log('Request ID:', requestID);
   }
   if (values) {
-    const filteredValues = values.filter(
-      (value) => value.userAddress === address
-    );
+    const filteredValues = values.filter((value) => value.userAddress === address);
     console.log('filteredValues: ', filteredValues);
     return {
       type: 'filecoin',

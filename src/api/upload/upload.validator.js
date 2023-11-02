@@ -21,7 +21,4 @@ const uploadInputSchema = Joi.object({
     ),
 });
 
-export const uploadInputSchemaValidator = SchemaValidator(
-  uploadInputSchema,
-  createOptions
-);
+export const uploadInputSchemaValidator = SchemaValidator(uploadInputSchema, createOptions);

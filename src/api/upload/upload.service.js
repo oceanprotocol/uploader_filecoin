@@ -18,12 +18,7 @@ export const getQuotaData = async (quoteId) => {
 };
 
 export const validateSignature = async (quoteId, nonce, address, signature) => {
-  console.log(
-    'Validating signature for quoteID, nonce, address:',
-    quoteId,
-    nonce,
-    address
-  );
+  console.log('Validating signature for quoteID, nonce, address:', quoteId, nonce, address);
 
   try {
     const message = utils.sha256(utils.toUtf8Bytes(quoteId + nonce.toString()));
@@ -53,12 +48,7 @@ export const validateNonce = async (address, nonce) => {
   return lastNonce < +nonce;
 };
 
-export const checkAllowance = async (
-  tokenAddress,
-  address,
-  amount,
-  chainId
-) => {
+export const checkAllowance = async (tokenAddress, address, amount, chainId) => {
   console.log(
     'Checking allowance for tokenAddress, address, amount, chainId:',
     tokenAddress,
@@ -67,15 +57,10 @@ export const checkAllowance = async (
     chainId
   );
 
-  const provider = new ethers.providers.JsonRpcProvider(
-    config.contractInfo[chainId].rpc
-  );
+  const provider = new ethers.providers.JsonRpcProvider(config.contractInfo[chainId].rpc);
   const contract = new Contract(tokenAddress, ERC20, provider);
 
-  const allowance = await contract.allowance(
-    address,
-    config.contractInfo[chainId].contract
-  );
+  const allowance = await contract.allowance(address, config.contractInfo[chainId].contract);
   console.log('Allowance for address:', allowance);
 
   const balanceOf = await contract.balanceOf(address);
@@ -93,17 +78,11 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
     chainId
   );
 
-  const provider = new ethers.providers.JsonRpcProvider(
-    config.contractInfo[chainId].rpc
-  );
+  const provider = new ethers.providers.JsonRpcProvider(config.contractInfo[chainId].rpc);
 
   try {
     const signer = new Wallet(config.privateKey, provider);
-    const depositContract = new Contract(
-      config.contractInfo[chainId].contract,
-      DepositABI,
-      signer
-    );
+    const depositContract = new Contract(config.contractInfo[chainId].contract, DepositABI, signer);
 
     // Estimate the gas required
     let estimatedGas;
@@ -124,9 +103,7 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
 
     // Add a buffer (10% in this case)
     const gasWithBuffer = Math.floor(
-      (typeof estimatedGas === 'number'
-        ? estimatedGas
-        : estimatedGas.toNumber()) * 1.1
+      (typeof estimatedGas === 'number' ? estimatedGas : estimatedGas.toNumber()) * 1.1
     );
     console.log('Gas with buffer:', gasWithBuffer);
 
@@ -171,12 +148,7 @@ export const migrateCIDS = async (user, files) => {
 };
 
 export const updateRow = async (nonce, quoteId, data) => {
-  console.log(
-    'Updating row for nonce, quoteId and data:',
-    nonce,
-    quoteId,
-    data
-  );
+  console.log('Updating row for nonce, quoteId and data:', nonce, quoteId, data);
 
   try {
     const result = await updateData({

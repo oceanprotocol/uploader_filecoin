@@ -51,15 +51,16 @@ describe('getLink', () => {
           duration: 4353545453,
           userAddress: wallet.address,
         });
-      const nonce = 0
+      const nonce = 0;
 
-      const message = utils.sha256(utils.toUtf8Bytes(requestQuotaResponse.body.quoteId + nonce.toString()))
+      const message = utils.sha256(
+        utils.toUtf8Bytes(requestQuotaResponse.body.quoteId + nonce.toString())
+      );
       // Sign the original message directly
-      const signature = await wallet.signMessage(message)
+      const signature = await wallet.signMessage(message);
 
       let response = await request(app).post(
-        `/getLink?quoteId=${requestQuotaResponse.body.quoteId
-        }&nonce=${nonce}&signature=${signature}`
+        `/getLink?quoteId=${requestQuotaResponse.body.quoteId}&nonce=${nonce}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
       expect(JSON.stringify(response.body)).toMatch(/Invalid/i);
@@ -67,7 +68,7 @@ describe('getLink', () => {
     });
 
     test('getLink for files', async () => {
-      const size = 100000
+      const size = 100000;
       let requestQuotaResponse = await request(app)
         .post(`/getQuote`)
         .send({
@@ -84,15 +85,16 @@ describe('getLink', () => {
           duration: 4353545453,
           userAddress: wallet.address,
         });
-      const nonce = 101 + await getLastKnowNonce(wallet.address.toLowerCase())
+      const nonce = 101 + (await getLastKnowNonce(wallet.address.toLowerCase()));
 
-      const message = utils.sha256(utils.toUtf8Bytes(requestQuotaResponse.body.quoteId + nonce.toString()))
+      const message = utils.sha256(
+        utils.toUtf8Bytes(requestQuotaResponse.body.quoteId + nonce.toString())
+      );
       // Sign the original message directly
-      const signature = await wallet.signMessage(message)
+      const signature = await wallet.signMessage(message);
 
       let response = await request(app).post(
-        `/getLink?quoteId=${requestQuotaResponse.body.quoteId
-        }&nonce=${nonce}&signature=${signature}`
+        `/getLink?quoteId=${requestQuotaResponse.body.quoteId}&nonce=${nonce}&signature=${signature}`
       );
       expect(typeof response.body).toBe('object');
       expect(response.body.length).toBe(0);

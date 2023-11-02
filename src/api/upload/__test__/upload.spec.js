@@ -58,9 +58,11 @@ describe('upload', () => {
         });
       const nonce = Date.now();
 
-      const message = utils.sha256(utils.toUtf8Bytes(requestQuotaresponse.body.quoteId + nonce.toString()))
+      const message = utils.sha256(
+        utils.toUtf8Bytes(requestQuotaresponse.body.quoteId + nonce.toString())
+      );
       // Sign the original message directly
-      const signature = await wallet.signMessage(message)
+      const signature = await wallet.signMessage(message);
 
       let response = await request(app)
         .post(`/upload`)

@@ -22,10 +22,7 @@ const baseConfig = {
   db_type: process.env.DB_TYPE,
   db_storage: process.env.DB_STORAGE,
 };
-const currencySchema = Joi.object().pattern(
-  Joi.string(),
-  Joi.string().required()
-);
+const currencySchema = Joi.object().pattern(Joi.string(), Joi.string().required());
 
 const contractInfoSchema = Joi.object().keys({
   currency: currencySchema,
@@ -36,9 +33,7 @@ const contractInfoSchema = Joi.object().keys({
 });
 
 const envVarsSchema = Joi.object({
-  contractInfo: Joi.object()
-    .pattern(Joi.number(), contractInfoSchema)
-    .required(),
+  contractInfo: Joi.object().pattern(Joi.number(), contractInfoSchema).required(),
   port: Joi.number().required('PORT is missing'),
   dbsPingInMinutes: Joi.number().required('dbsTimeout is missing'),
   db_type: Joi.string().insensitive().valid('mysql', 'sqlite').required(),

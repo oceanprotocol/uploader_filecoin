@@ -11,9 +11,7 @@ const getLink = async (req, res) => {
   try {
     const data = await getQuotaData(quoteId);
 
-    if (
-      !(await validateSignature(quoteId, nonce, data.userAddress, signature))
-    ) {
+    if (!(await validateSignature(quoteId, nonce, data.userAddress, signature))) {
       return res.status(400).json({ message: 'Invalid signature', data: {} });
     }
 
