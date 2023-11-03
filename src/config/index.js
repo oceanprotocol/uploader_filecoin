@@ -13,7 +13,10 @@ const baseConfig = {
   dbsUrl: process.env.DBS_URL,
   locationUrl: process.env.LOCATION_URL,
   contractInfo,
-  bearer_token: process.env.LIGHTHOUSE_API_TOKEN,
+  bearer_token:
+    process.env.FILECOIN_PRODUCTION === 'true'
+      ? process.env.LIGHTHOUSE_API_TOKEN
+      : process.env.LIGHTHOUSE_TESTNET_API_TOKEN,
   database_sql: process.env.DATABASE_SQL,
   user_sql: process.env.USER_SQL,
   password_sql: process.env.PASSWORD_SQL,
