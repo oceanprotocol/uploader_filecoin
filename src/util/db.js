@@ -78,6 +78,7 @@ export const getHistoryForAddress = async (address, page, limit) => {
       [col('createdAt'), 'createdAt'],
       [col('updatedAt'), 'updatedAt'],
     ],
+    order: [['createdAt', 'DESC']],
   });
   console.log('history.length', history.length);
 
