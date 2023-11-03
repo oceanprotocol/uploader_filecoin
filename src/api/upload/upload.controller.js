@@ -50,7 +50,8 @@ const createUpload = async (req, res) => {
     }
 
     const response = await migrateCIDS(data.userAddress, files);
-    await updateRow(nonce, quoteId, response.data);
+    console.log('migrateCIDS response:', response);
+    await updateRow(nonce, quoteId, response);
 
     return sendResponse(res, 200, 'Success', { ...req.body, ...response.data });
   } catch (e) {

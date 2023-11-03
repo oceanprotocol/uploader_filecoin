@@ -11,10 +11,23 @@ function filesToArray(req, res, next) {
   next();
 }
 
+function logRequest(req, res, next) {
+  console.log('Received request:');
+  console.log('Headers:', JSON.stringify(req.headers, null, 2));
+  console.log('Body:', JSON.stringify(req.body, null, 2));
+  console.log('Query Parameters:', JSON.stringify(req.query, null, 2));
+  next();
+}
+
 uploadRouter
   .route('/')
   .get(controllers.rejectRequest)
-  .post(filesToArray, uploadInputSchemaValidator, controllers.createOne)
+  .post(
+    logRequest,
+    filesToArray,
+    uploadInputSchemaValidator,
+    controllers.createOne
+  )
   .put(controllers.rejectRequest);
 
 export default uploadRouter;

@@ -10,6 +10,7 @@ module.exports = {
   plugins: ['jest', 'prettier'],
   rules: {
     indent: 'off',
+    'no-console': 'off',
     'promise/catch-or-return': 0,
     'comma-dangle': 0,
     'object-curly-newline': 0,

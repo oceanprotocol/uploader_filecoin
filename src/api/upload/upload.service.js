@@ -122,6 +122,15 @@ export const buyStorage = async (user, tokenAddress, amount, chainId) => {
 
 export const migrateCIDS = async (user, files) => {
   console.log('Migrating CIDS for user and files:', user, files);
+  console.log(`using token: Bearer ${config.bearer_token}`);
+  const data = {
+    data: JSON.stringify(
+      files.map((fileObj) => fileObj.ipfs_uri.split('//')[1])
+    ), // Adjusted this line
+    publicKey: user,
+    enterprise: 'ocean_protocol',
+  };
+  console.log('sending data: ', data);
 
   try {
     const response = await axios({
@@ -132,11 +141,7 @@ export const migrateCIDS = async (user, files) => {
         'Content-Type': 'application/json;charset=UTF-8',
         Authorization: `Bearer ${config.bearer_token}`,
       },
-      data: {
-        data: JSON.stringify(files.map((elem) => elem.split('//')[1])),
-        publicKey: user,
-        enterprise: 'ocean_protocol',
-      },
+      data,
     });
 
     console.log('Migration response:', response.data);
@@ -146,22 +151,23 @@ export const migrateCIDS = async (user, files) => {
     throw e;
   }
 };
-
 export const updateRow = async (nonce, quoteId, data) => {
   console.log('Updating row for nonce, quoteId and data:', nonce, quoteId, data);
 
   try {
+    console.log('Attempting to update data in database');
     const result = await updateData({
       quoteId,
       ...data,
       nonce,
       isUsed: true,
     });
+    console.log('Data update attempted. Checking for result.');
 
     console.log('Row updated with result:', result);
     return result;
   } catch (e) {
-    console.error('Error during row update:', e);
+    console.error('Detailed error during row update:', e.message, e.stack);
     throw e;
   }
 };
