@@ -145,7 +145,7 @@ Returns:
 ```json
 [
   {
-    "type": "arweave",
+    "type": "filecoin",
     "transactionHash": "xxxx"
   }
 ]

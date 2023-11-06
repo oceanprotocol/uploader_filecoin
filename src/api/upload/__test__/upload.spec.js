@@ -1,7 +1,8 @@
 import { app } from '../../../app';
 import { initializeDB } from '../../../models/data';
-import { ethers } from 'ethers';
+import { ethers, utils } from 'ethers';
 import request from 'supertest';
+import config from '../../../config';
 
 jest.setTimeout(30000);
 
@@ -49,17 +50,19 @@ describe('upload', () => {
             },
           ],
           payment: {
-            chainId: 80001,
-            tokenAddress: '0x9aa7fEc87CA69695Dd1f879567CcF49F3ba417E2',
+            chainId: Object.keys(config.contractInfo)[0],
+            tokenAddress: config.contractInfo[Object.keys(config.contractInfo)[0]].currency.USDT,
           },
           duration: 4353545453,
           userAddress: wallet.address,
         });
       const nonce = Date.now();
-      
-      const message = sha256(toUtf8Bytes(requestQuotaresponse.body.quoteId + nonce.toString()))
+
+      const message = utils.sha256(
+        utils.toUtf8Bytes(requestQuotaresponse.body.quoteId + nonce.toString())
+      );
       // Sign the original message directly
-      const signature = await signer.signMessage(message)
+      const signature = await wallet.signMessage(message);
 
       let response = await request(app)
         .post(`/upload`)

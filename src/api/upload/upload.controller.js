@@ -9,9 +9,7 @@ import {
 } from './upload.service';
 
 const sendResponse = (res, statusCode, message, data = {}) => {
-  console.log(
-    `Sending response with status: ${statusCode}, message: ${message}`
-  );
+  console.log(`Sending response with status: ${statusCode}, message: ${message}`);
   return res.status(statusCode).json({ message, data });
 };
 
@@ -27,9 +25,7 @@ const createUpload = async (req, res) => {
       return sendResponse(res, 400, 'quoteID used');
     }
 
-    if (
-      !(await validateSignature(quoteId, nonce, data.userAddress, signature))
-    ) {
+    if (!(await validateSignature(quoteId, nonce, data.userAddress, signature))) {
       return sendResponse(res, 400, 'Invalid signature');
     }
 
@@ -38,12 +34,7 @@ const createUpload = async (req, res) => {
     }
 
     if (
-      !(await checkAllowance(
-        data.tokenAddress,
-        data.userAddress,
-        data.tokenAmount,
-        data.chainId
-      ))
+      !(await checkAllowance(data.tokenAddress, data.userAddress, data.tokenAmount, data.chainId))
     ) {
       return sendResponse(res, 400, 'In-Adequate Token Approval or Balance');
     }
@@ -55,11 +46,7 @@ const createUpload = async (req, res) => {
       data.chainId
     );
     if (!boughtStorage) {
-      return sendResponse(
-        res,
-        500,
-        'an Error occurred when purchasing Storage'
-      );
+      return sendResponse(res, 500, 'an Error occurred when purchasing Storage');
     }
 
     const response = await migrateCIDS(data.userAddress, files);
@@ -73,8 +60,7 @@ const createUpload = async (req, res) => {
   }
 };
 
-const rejectRequest = (req, res) =>
-  sendResponse(res, 406, 'Method Not allowed');
+const rejectRequest = (req, res) => sendResponse(res, 406, 'Method Not allowed');
 
 export default {
   createOne: createUpload,

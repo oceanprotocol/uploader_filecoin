@@ -5,17 +5,10 @@ const createQuota = async (req, res) => {
   const { files, payment, userAddress } = req.body;
   let cost;
 
-  const getTotalFileSize = files.reduce(
-    (result, elem) => result + elem.length,
-    0
-  );
+  const getTotalFileSize = files.reduce((result, elem) => result + elem.length, 0);
 
   try {
-    cost = await getStorageCost(
-      payment.tokenAddress,
-      payment.chainId,
-      getTotalFileSize
-    );
+    cost = await getStorageCost(payment.tokenAddress, payment.chainId, getTotalFileSize);
   } catch (e) {
     return res.status(400).json({ message: 'Error', data: e?.reason });
   }

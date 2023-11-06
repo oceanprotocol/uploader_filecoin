@@ -45,10 +45,8 @@ const getStatus = async (req, res) => {
   try {
     console.log('Trying to check CID status');
     const response = await checkCID(data.requestID);
+    if (response?.data?.filter((e) => e?.cidStatus !== 'pinned')?.length === 0) {
 
-    if (
-      response?.data?.filter((e) => e?.cidStatus !== 'pinned')?.length === 0
-    ) {
       const listCID = response?.data?.map((elem) => elem.cid);
 
       // filecoin deals are made in Batch, A request belongs to the same deal

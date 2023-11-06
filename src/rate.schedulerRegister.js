@@ -18,9 +18,9 @@ const job = async () => {
       url: config.locationUrl,
       payment: Object.entries(config.contractInfo).map(([key, value]) => ({
         chainId: key,
-        acceptedTokens: Object.entries(value.currency).map(
-          ([_key, _value]) => ({ [_key]: _value })
-        )
+        acceptedTokens: Object.entries(value.currency).map(([_key, _value]) => ({
+          [_key]: _value,
+        })),
       })),
       signature: await userWallet.signMessage(config.locationUrl) 
     },

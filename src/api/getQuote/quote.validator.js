@@ -9,14 +9,9 @@ export const createOptions = {
 };
 
 const getQuoteInputSchema = Joi.object({
-  type: Joi.string()
-    .insensitive()
-    .valid('filecoin', 'lighthouseStorage')
-    .required(),
+  type: Joi.string().insensitive().valid('filecoin', 'lighthouseStorage').required(),
   duration: Joi.number().required().min(0),
-  userAddress: Joi.string().custom((value, helper) =>
-    addressValidator(value, helper)
-  ),
+  userAddress: Joi.string().custom((value, helper) => addressValidator(value, helper)),
   payment: Joi.object({
     chainId: Joi.number()
       .required()
@@ -33,18 +28,11 @@ const getQuoteInputSchema = Joi.object({
 }).custom((values, helper) => {
   const [paymentAddress] = (
     Object.values(config.contractInfo[values?.payment?.chainId].currency) ?? []
-  ).filter(
-    (a) => a.toLowerCase() === values?.payment?.tokenAddress.toLowerCase()
-  );
+  ).filter((a) => a.toLowerCase() === values?.payment?.tokenAddress.toLowerCase());
   if (!paymentAddress) {
-    return helper.message(
-      `TokenAddress not support on chainId ${values?.payment?.chainId}`
-    );
+    return helper.message(`TokenAddress not support on chainId ${values?.payment?.chainId}`);
   }
   return values;
 });
 
-export const getQuoteInputSchemaValidator = SchemaValidator(
-  getQuoteInputSchema,
-  createOptions
-);
+export const getQuoteInputSchemaValidator = SchemaValidator(getQuoteInputSchema, createOptions);
